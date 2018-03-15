@@ -1,0 +1,58 @@
+<?php
+
+/*
+    * Identifiants SQL
+    Compte ROOT obligatoire !! (Permission de création d'utilisateurs nécessaire)
+/* 
+
+// TODO
+
+
+    * Environnement
+    Permet de limiter l'affichage des erreurs PHP
+    - Valeurs possibles: DEV, PROD
+*/
+define('ENVIRONMENT', 'DEV'); 
+
+/* 
+    * Chemin vers la config des sites nginx
+    Possibilité d'utiliser un chemin fictif
+    Slash final obligatoire!
+*/
+define('NGINX_PATH', '/etc/nginx/sites-enabled/');
+
+/*
+    * Commande pour recharger la configuration nginx
+    Laisser vide pour ne pas relancer la configuration
+    PHP doit avoir les droits nécessaires !
+*/
+define('NGINX_RELOAD', 'service nginx reload');
+
+/* 
+    * Chemin vers la config des pools PHP-FPM
+    Possibilité d'utiliser un chemin fictif
+    Slash final obligatoire!
+*/
+define('PHP_PATH', '/etc/php5/fpm/pool.d/');
+
+/*
+    * Commande pour recharger la configuration PHP-FPM
+    Laisser vide pour ne pas relancer la configuration
+    PHP doit avoir les droits nécessaires !
+
+*/
+define('PHP_RELOAD', 'service php5-fpm reload');
+
+/*
+    * Commande pour ajouter un utilisateur Unix
+    Laisser vide pour ne pas ajouter un utilisateur
+    PHP doit avoir les droits nécessaires (root) !
+    - arguments : %username%, %homedir%
+*/
+define('UNIX_USERADD', "useradd %username% -s /bin/false -p '*' -d %homedir%");
+
+/*
+    * Répertoire contenant les données utilisateur
+    Slash final obligatoire!
+*/
+define('USER_PATH', '/home/');
