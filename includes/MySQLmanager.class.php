@@ -7,6 +7,7 @@ class MySQLmanagerException extends Exception {
 /* Attention :
 
 Les clients doivent être en localhost (hardcodé)
+COMPTE ROOT OBLIGATOIRE!!
 
 */
 

@@ -72,3 +72,9 @@ define('UNIX_USERDEL', 'userdel --remove %username%');
     Slash final obligatoire!
 */
 define('USER_PATH', '/home/');
+
+/*
+    * Domaine utilisé pour héberger les sites hébergés
+    L'entrée *.domain.tld doit pointer vers ce serveur
+*/
+define('USER_DOMAIN', 'chost.io');

@@ -36,7 +36,7 @@ pm.min_spare_servers = 1
 
 pm.max_spare_servers = 3
 
-chroot = ".PHP_PATH."$identifiant/www/
+chroot = ".USER_PATH."$identifiant/www/
 chdir = /
 
 php_admin_value[open_basedir]   = /
@@ -50,12 +50,12 @@ php_admin_value[upload_tmp_dir] = /tmp/
     {
         if(!ctype_alnum($identifiant)) 
         {
-            throw new PHPManagerException("L'identifiant doit être alpha numérique !");
+            throw new PHPmanagerException("L'identifiant doit être alpha numérique !");
         }
 
         if(!is_dir(PHP_PATH) || !is_writable(PHP_PATH))
         {
-            throw new PHPManagerException("Le chemin vers les pools PHP n'existe pas ou n'est pas accessible en écriture");
+            throw new PHPmanagerException("Le chemin vers les pools PHP n'existe pas ou n'est pas accessible en écriture");
         }
 
         file_put_contents(
@@ -68,12 +68,12 @@ php_admin_value[upload_tmp_dir] = /tmp/
     {
         if(!ctype_alnum($identifiant)) 
         {
-            throw new PHPManagerException("L'identifiant doit être alpha numérique !");
+            throw new PHPmanagerException("L'identifiant doit être alpha numérique !");
         }
 
         if(!is_dir(PHP_PATH) || !is_writable(PHP_PATH))
         {
-            throw new PHPManagerException("Le chemin vers les pools PHP n'existe pas ou n'est pas accessible en écriture");
+            throw new PHPmanagerException("Le chemin vers les pools PHP n'existe pas ou n'est pas accessible en écriture");
         }
 
         if(!file_exists(PHP_PATH . $identifiant . ".conf"))
