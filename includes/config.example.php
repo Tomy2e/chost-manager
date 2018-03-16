@@ -3,11 +3,13 @@
 /*
     * Identifiants SQL
     Compte ROOT obligatoire !! (Permission de création d'utilisateurs nécessaire)
-/* 
+*/
+define('BDD_HOST', 'localhost');
+define('BDD_NAME', 'chost');
+define('BDD_USERNAME', 'root');
+define('BDD_PASSWORD', '');
 
-// TODO
-
-
+/*
     * Environnement
     Permet de limiter l'affichage des erreurs PHP
     - Valeurs possibles: DEV, PROD
@@ -34,6 +36,13 @@ define('NGINX_RELOAD', 'service nginx reload');
     Slash final obligatoire!
 */
 define('PHP_PATH', '/etc/php5/fpm/pool.d/');
+
+/*
+    * Chemin vers les sockets PHP
+    Possibilité d'utiliser un chemin fictif
+    Slash final obligatoire!
+*/
+define('PHP_SOCKET_PATH', '/run/php/');
 
 /*
     * Commande pour recharger la configuration PHP-FPM
