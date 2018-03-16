@@ -25,6 +25,8 @@ class MySQLmanager {
             throw new MySQLmanagerException('La variable $pdoHandle doit être de type PDO');
         }
 
+        $this->pdoHandle = $pdoHandle;
+
         // Vérifier que la connexion est active
         try {
             $this->pdoHandle->query("SELECT 1");
@@ -51,6 +53,8 @@ class MySQLmanager {
         {
             throw new MySQLmanagerException("Une erreur s'est produite lors de la création de l'utilisateur.");
         }
+        
+        $this->pdoHandle->query("flush privileges;");
 
         // Création de la base de données par défaut
         $this->addDatabase($username, $username);
@@ -60,37 +64,49 @@ class MySQLmanager {
 
     function addDatabase($username, $dbName)
     {
-        // Création de la base de données pour cet utilisateur
-        $addDatabase = $this->pdoHandle->prepare("CREATE DATABASE ?");
-        if($addDatabase->execute(array(
-            $dbName
-        )) === false)
+
+        if(!ctype_alnum($dbName)) 
         {
+            throw new MySQLmanagerException("Le nom de la base doit être alpha numérique !");
+        }
+
+        // Création de la base de données pour cet utilisateur
+        // https://stackoverflow.com/a/19986035
+        
+        $addDatabase = $this->pdoHandle->prepare("CREATE DATABASE $dbName");
+        if($addDatabase->execute() === false)
+        {
+            print_r($this->pdoHandle->errorInfo());
             throw new MySQLmanagerException("Une erreur s'est produite lors de la création de la base de données pour l'utilisateur.");
         }
 
         // Ajout des droits à cet utilisateur
         // Commande : GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES, CREATE VIEW, EVENT, TRIGGER, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EXECUTE ON `chost`.* TO 'testuser'@'%';
-        $addPrivileges = $this->pdoHandle->prepare("GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES, CREATE VIEW, EVENT, TRIGGER, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EXECUTE ON ?.* TO ?@'%';");
-        if($addPrivileges->execute(array(
-            $username,
-            $dbName
-        )) === false)
+        $addPrivileges = $this->pdoHandle->prepare("GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES, CREATE VIEW, EVENT, TRIGGER, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EXECUTE ON `$username`.* TO '$dbName'@'localhost';");
+        if($addPrivileges->execute() === false)
         {
             throw new MySQLmanagerException("Une erreur s'est produite lors de l'ajout des droits pour l'utilisateur.");
         }
+
+        $this->pdoHandle->query("flush privileges;");
     }
 
     function updatePassword($username, $password)
     {
-        $updatePassword = $this->pdoHandle->prepare("ALTER USER ?@'localhost' IDENTIFIED BY ?;");
+        if(!ctype_alnum($username)) 
+        {
+            throw new MySQLmanagerException("L'identifiant doit être alpha numérique !");
+        }
+
+        $updatePassword = $this->pdoHandle->prepare("ALTER USER $username@'localhost' IDENTIFIED BY ?;");
         if($updatePassword->execute(array(
-            $username,
             $password
         )) === false)
         {
             throw new MySQLmanagerException("Une erreur s'est produite lors de la modification du mot de passe");
         }
+
+        $this->pdoHandle->query("flush privileges;");
 
         return true;
     }
@@ -108,10 +124,12 @@ class MySQLmanager {
 
     function deleteDatabase($dbName)
     {
-        $delDb = $this->pdoHandle->prepare("DROP DATABASE ?;");
-        if($delDb->execute(array(
-            $dbName
-        )) === false)
+        if(!ctype_alnum($dbName)) 
+        {
+            throw new MySQLmanagerException("Le nom de la base doit être alpha numérique !");
+        }
+        $delDb = $this->pdoHandle->prepare("DROP DATABASE $dbName;");
+        if($delDb->execute() === false)
         {
             throw new Exception("Une erreur s'est produite lors de la suppression de la base de données");
         }
@@ -122,13 +140,18 @@ class MySQLmanager {
     /* Supprimer un utilisateur */
     function deleteUser($username)
     {
-        $delUser = $this->pdoHandle->prepare("DROP USER ?@'localhost';");
-        if($delUser->execute(array(
-            $username
-        )) === false)
+        if(!ctype_alnum($username)) 
+        {
+            throw new MySQLmanagerException("L'identifiant doit être alpha numérique !");
+        }
+
+        $delUser = $this->pdoHandle->prepare("DROP USER $username@'localhost';");
+        if($delUser->execute() === false)
         {
             throw new Exception("Une erreur s'est produite lors de la suppression de l'utilisateur");
         }
+
+        $this->pdoHandle->query("flush privileges;");
 
         return true;
     }

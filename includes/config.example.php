@@ -61,6 +61,13 @@ define('PHP_RELOAD', 'service php5-fpm reload');
 define('UNIX_USERADD', "useradd %username% -s /bin/false -p '*' -d %homedir%");
 
 /*
+    * Commande pour supprimer un utilisateur Unix
+    Laisser vide pour ne pas supprimer les utilisateurs
+    - arguments : %username%
+*/
+define('UNIX_USERDEL', 'userdel --remove %username%');
+
+/*
     * Répertoire contenant les données utilisateur
     Slash final obligatoire!
 */
