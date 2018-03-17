@@ -20,13 +20,13 @@ class LINUXmanager {
                 '%username%',
                 '%homedir%'
             ), array(
-                escapeshellarg($username),
-                escapeshellarg(USER_PATH . $username)
+                escapeshellarg($identifiant),
+                escapeshellarg(USER_PATH . $identifiant)
             ), UNIX_USERADD);
 
             // TODO: vérifier que la commande a marché (code de retour ?)
             shell_exec($commande);
-
+            
         }
 
         // Création du répertoire home et des sous répertoires
