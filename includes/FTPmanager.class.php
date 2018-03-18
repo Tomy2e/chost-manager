@@ -51,7 +51,7 @@ class FTPmanager {
 
             $commande = str_replace(array(
                 '%username%',
-                '%sideInMB%'
+                '%sizeInMB%'
             ), array(
                 escapeshellarg($username),
                 escapeshellarg($quotaInMB)
@@ -59,7 +59,7 @@ class FTPmanager {
 
             shell_exec($commande);
             
-            $this->mbDb();
+            $this->mkDb();
         }
     }
 

@@ -114,4 +114,4 @@ define('FTP_MKDB', 'pure-pw mkdb');
     Source : https://download.pureftpd.org/pub/pure-ftpd/doc/README.Virtual-Users
     - arguments : %username%, %sizeInMB%
 */
-define('FTP_QUOTAS', 'use pure-pw usermod %username% -N %sizeInMB%');
+define('FTP_QUOTAS', 'pure-pw usermod %username% -N %sizeInMB%');
