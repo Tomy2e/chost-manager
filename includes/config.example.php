@@ -78,3 +78,40 @@ define('USER_PATH', '/home/');
     L'entrée *.domain.tld doit pointer vers ce serveur
 */
 define('USER_DOMAIN', 'chost.io');
+
+/* 
+    * Commande pour ajouter un utilisateur FTP
+    Laisser vide pour ne pas ajouter un utilisateur FTP
+    - arguments : %username%, %homedir%, %password%
+*/
+define('FTP_USERADD', '(echo %password%; echo %password%) | pure-pw useradd %username% -u %username% -g %username% -d %homedir%');
+
+/*
+    * Commande pour modifier le mot de passe d'un utilisateur FTP
+    Laisser vide pour ne pas autoriser la modification d'un mot de passe
+    - arguments : %username%, %password%
+*/
+define('FTP_PASSWD', '(echo %password%; echo %password%) | pure-pw passwd %username%');
+
+/*
+    * Commande pour supprimer un utilisateur FTP
+    Laisser vide pour ne pas autoriser la suppression d'un utilisateur FTP
+    - arguments : %username%
+*/
+define('FTP_USERDEL', 'pure-pw userdel %username%');
+
+/* 
+    * Commande pour mettre à jour la DB FTP
+    Laisser vide pour ne pas mettre à jour la DB FTP automatiquement
+*/
+define('FTP_MKDB', 'pure-pw mkdb');
+
+/*
+    * Commande pour définir la taille maximale que peut utiliser un utilisateur FTP (quotas)
+    Laisser vide pour ne pas appliquer de quotas.
+    Doc : https://download.pureftpd.org/pub/pure-ftpd/doc/README
+    Utilisation requise de pure-quotacheck ?? https://linux.die.net/man/8/pure-quotacheck
+    Source : https://download.pureftpd.org/pub/pure-ftpd/doc/README.Virtual-Users
+    - arguments : %username%, %sizeInMB%
+*/
+define('FTP_QUOTAS', 'use pure-pw usermod %username% -N %sizeInMB%');
