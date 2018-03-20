@@ -1,3 +1,9 @@
+<?php
+require_once('includes/autoload.php');
+
+connexion(1);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 

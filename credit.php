@@ -1,4 +1,12 @@
-<?php define('ENVIRONMENT', 'PROD'); ?>
+<?php
+require_once('includes/autoload.php');
+
+if(!isConnected()) {
+  header("Location: connexion.php");
+  exit();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,9 +38,64 @@
         <li class="breadcrumb-item active">Mon crédit</li>
       </ol>
       <div class="row">
-        <div class="col-12">
-          <h1>Mon crédit</h1>
-          <p>Page en cours de création.</p>
+        <div class="col-lg-8">
+          <!-- Example Bar Chart Card-->
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fa fa-bar-chart"></i> Votre crédit</div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-8 my-auto">
+                  Vous compte possède actuellement <div class="h4 mb-0 text-primary"><?= $clientObj->getCredit(true); ?>€</div>
+                </div>
+
+              </div>
+            </div>
+            <div class="card-footer small text-muted">Dernier paiement le 01/01/2001 à 01h01</div>
+          </div>
+          <!-- /Card Columns-->
+        </div>
+        <div class="col-lg-4">
+          <!-- Example Pie Chart Card-->
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fa fa-pie-chart"></i> Recharger votre compte</div>
+            <div class="card-body">
+              <form class="form-inline">
+                <div class="form-group row">
+                  <h5>Créditer via PayPal</h5>
+                </div>
+                <div class="form-group row">
+                  <label class="sr-only" for="inlineFormInput">Montant</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" value="5" aria-label="Amount (to the nearest dollar)">
+                    <div class="input-group-append">
+                      <span class="input-group-text">€</span>
+                    </div>
+                  </div>
+                  &nbsp;&nbsp;
+                  <button type="submit" class="btn btn-primary">Valider</button>
+                </div>
+
+              </form>
+
+              <form class="form-inline mt-3">
+                <div class="form-group row">
+                  <h5>Utiliser un code d'activation</h5>
+                </div>
+                <div class="form-group row">
+                  <label class="sr-only" for="inlineFormInput">Montant</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" value="" aria-label="Code d'activation" placeholder="ABCD-ABDC-ABCD">
+                  </div>
+                  &nbsp;&nbsp;
+                  <button type="submit" class="btn btn-primary">Valider</button>
+                </div>
+
+              </form>
+            </div>
+            <div class="card-footer small text-muted">Une facture sera créée automatiquement</div>
+          </div>
         </div>
       </div>
     </div>

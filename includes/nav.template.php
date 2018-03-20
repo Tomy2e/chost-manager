@@ -2,7 +2,7 @@
 if(!defined('ENVIRONMENT')) { exit(); } // On empêche l'accès direct en HTTP
 ?>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="index.html">cHost</a>
+    <a class="navbar-brand" href="index.php">cHost</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -37,7 +37,7 @@ if(!defined('ENVIRONMENT')) { exit(); } // On empêche l'accès direct en HTTP
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Mon crédit">
           <a class="nav-link" href="credit.php">
             <i class="fa fa-fw fa-btc"></i>
-            <span class="nav-link-text">Mon crédit (0€)</span>
+            <span class="nav-link-text">Mon crédit (TODO €)</span>
           </a>
         </li>
 
