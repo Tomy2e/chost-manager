@@ -61,7 +61,7 @@ class Client
             throw new ClientException("La classe n'est pas initialisée avec un Id");
         }
 
-        $somme = intval($somme);
+        $somme = floatval($somme);
 
         if($somme <= 0)
         {
@@ -82,7 +82,7 @@ class Client
             throw new ClientException("La classe n'est pas initialisée avec un Id");
         }
 
-        $somme = intval($somme);
+        $somme = floatval($somme);
 
         if($somme <= 0)
         {
