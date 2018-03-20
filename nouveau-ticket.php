@@ -1,4 +1,19 @@
-<?php define('ENVIRONMENT', 'PROD'); ?>
+<?php 
+require_once('includes/config.php');
+require_once('includes/DBmanager.class.php');
+
+require_once('includes/Tickets.class.php');
+
+$test = new Ticket;
+
+
+if(!empty($_POST)){
+  $test->addTicket(1,1,$_POST['type'],$_POST['message'],"tomy");
+}
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,7 +50,24 @@
       <div class="row">
         <div class="col-12">
           <h1>Nouveau ticket</h1>
-          <p>Page en cours de création.</p>
+            <form method="POST">
+            <select class="custom-select mb-3">
+              <option selected>serveur affecté</option>
+            </select>
+            
+            <select name="type" class="custom-select">
+              <option selected>Types de problèmes</option>
+              <option value="Payement">Payement</option>
+              <option value="Domaine">Nom de domaine</option>
+              <option value="Acces">Accès FTP</option>
+              <option value="Autre">Autre</option>
+            </select>
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1"></label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" name="message" placeholder="Description du problème" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
         </div>
       </div>
     </div>

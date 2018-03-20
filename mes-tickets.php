@@ -1,4 +1,17 @@
-<?php define('ENVIRONMENT', 'PROD'); ?>
+<?php
+require_once('includes/config.php');
+require_once('includes/DBmanager.class.php');
+
+require_once('includes/Tickets.class.php');
+
+$test = new Ticket;
+
+
+//$test->getTicket(1);
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,7 +45,30 @@
       <div class="row">
         <div class="col-12">
           <h1>Mes tickets</h1>
-          <p>Page en cours de création.</p>
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Type de problème</th>
+                <th>numero ticket</th>
+                <th>Id client</th>
+                <th>Lock</th>
+              </tr>
+            </thead>
+            <tbody>
+            <?php  $tab = $test->getTicket(1);
+          foreach($tab as $value){
+            echo "<tr>";
+            foreach($value as $test){
+              echo "<td>" . $test."</td>";
+            }
+            echo "</tr>";
+            //print_r($value);
+            //href ulr/id=truc ticket
+            echo "<br>";
+          }  ?>
+              
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
