@@ -6,6 +6,62 @@ if(!isConnected()) {
   exit();
 }
 
+if(!empty($_GET['paymentId']) && !empty($_GET['PayerID']) && PAYPAL_ENABLE == 'YES')
+{
+  $pp = new EasyPayPal;
+
+  $credit = $pp->finaliserPaiement($_GET['paymentId'], $_GET['PayerID']);
+
+  if($credit['success'] == false)
+  {
+    $view_error = "Une erreur PayPal s'est produite avec le code d'erreur suivant : " . $credit['code'];
+  }
+  else if($credit['success'] == true)
+  {
+      $clientObj->ajouterCredit($credit['montant']);
+
+      $view_success = "Votre compte a bien été crédité de " . $credit['montant'] . "€";
+  }
+}
+
+if(!empty($_POST))
+{
+  // Code d'activation ?
+  if(!empty($_POST['code-activation']))
+  {
+    $ca = new CodesActivation;
+
+    $montant = $ca->utiliserCode($_POST['code-activation']);
+    if($montant !== false)
+    {
+      $clientObj->ajouterCredit($montant);
+
+      $view_success = "Votre compte a bien été crédité de " . $montant . "€";
+    }
+    else
+    {
+      // code invalide
+      $view_error = "Le code fourni a déjà été utilisé ou n'existe pas.";
+    }
+  }
+  else if(!empty($_POST['montant-paypal']) && PAYPAL_ENABLE == 'YES')
+  {
+    $montant = floatval($_POST['montant-paypal']);
+    $montant = round($montant, 2);
+
+    if($montant < 1 || $montant > 100)
+    {
+      $view_error = "Le montant doit être supérieur à 1€ et inférieur à 100€";
+    }
+    else
+    {
+      $pp = new EasyPayPal;
+      header("Location:" . $pp->nouveauPaiement("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", $montant, "Recharge du compte cHost - " . $montant . " euros"));
+      exit();
+    }
+  }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,6 +93,18 @@ if(!isConnected()) {
         </li>
         <li class="breadcrumb-item active">Mon crédit</li>
       </ol>
+
+      <?php if(!empty($view_error)) : ?>
+      <div class="alert alert-danger" role="alert">
+        <strong>Oups !</strong> <?= $view_error; ?>
+      </div>
+      <?php endif; ?>
+
+      <?php if(!empty($view_success)) : ?>
+      <div class="alert alert-success" role="alert">
+        <strong>Hourra !</strong> <?= $view_success; ?>
+      </div>
+      <?php endif; ?>
       <div class="row">
         <div class="col-lg-8">
           <!-- Example Bar Chart Card-->
@@ -61,14 +129,16 @@ if(!isConnected()) {
             <div class="card-header">
               <i class="fa fa-pie-chart"></i> Recharger votre compte</div>
             <div class="card-body">
-              <form class="form-inline">
-                <div class="form-group row">
+            <?php if(PAYPAL_ENABLE == 'YES') : ?>
+            <div class="form-group row">
                   <h5>Créditer via PayPal</h5>
                 </div>
+              <form class="form-inline" action="credit.php" method="post">
+
                 <div class="form-group row">
                   <label class="sr-only" for="inlineFormInput">Montant</label>
                   <div class="input-group">
-                    <input type="text" class="form-control" value="5" aria-label="Amount (to the nearest dollar)">
+                    <input type="text" class="form-control" name="montant-paypal" value="5" aria-label="Amount (to the nearest dollar)">
                     <div class="input-group-append">
                       <span class="input-group-text">€</span>
                     </div>
@@ -78,15 +148,17 @@ if(!isConnected()) {
                 </div>
 
               </form>
-
-              <form class="form-inline mt-3">
-                <div class="form-group row">
+              <?php endif; ?>
+              <div class="form-group row mt-3">
                   <h5>Utiliser un code d'activation</h5>
                 </div>
+
+              <form class="form-inline" action="credit.php" method="post">
+
                 <div class="form-group row">
                   <label class="sr-only" for="inlineFormInput">Montant</label>
                   <div class="input-group">
-                    <input type="text" class="form-control" value="" aria-label="Code d'activation" placeholder="ABCD-ABDC-ABCD">
+                    <input type="text" class="form-control" name="code-activation" value="" aria-label="Code d'activation" placeholder="ABCD-ABDC-ABCD">
                   </div>
                   &nbsp;&nbsp;
                   <button type="submit" class="btn btn-primary">Valider</button>

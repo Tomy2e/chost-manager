@@ -115,3 +115,15 @@ define('FTP_MKDB', 'pure-pw mkdb');
     - arguments : %username%, %sizeInMB%
 */
 define('FTP_QUOTAS', 'pure-pw usermod %username% -N %sizeInMB%');
+
+/*
+    * Activer ou pas le paiement par PayPal
+    Valeurs: YES, NO
+*/
+define('PAYPAL_ENABLE', 'NO');
+
+/*
+    * Identifiants Application PayPal
+*/
+define('PAYPAL_CLIENT_ID', '');
+define('PAYPAL_CLIENT_SECRET', '');

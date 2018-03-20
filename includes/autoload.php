@@ -7,6 +7,14 @@ require_once('includes/DBmanager.class.php');
 require_once('includes/Client.class.php');
 require_once('includes/CodesActivation.class.php');
 
+
+if(PAYPAL_ENABLE == true)
+{
+    require 'vendor/autoload.php';
+    require_once('includes/EasyPayPal.class.php');
+}
+
+
 function isConnected()
 {
     if(!empty($_SESSION['id_client']) && $_SESSION['id_client'] != 0)

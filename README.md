@@ -23,6 +23,14 @@ Commandes à exécuter après l'installation:
 
 Infos complémentaires: https://doc.ubuntu-fr.org/pure-ftp
 
+## Activation PayPal
+**Composer est requis pour installer le SDK PayPal : https://getcomposer.org/download/ !!**  
+
+Installation des dépendances: 
+> composer install
+
+Modifier les constantes `PAYPAL_ENABLE`, `PAYPAL_CLIENT_ID` et `PAYPAL_CLIENT_SECRET` dans le fichier `includes/config.php`
+
 ## Ordre d'exécution des tests
 ### Création
 - ajout de l'user linux_adduser.php

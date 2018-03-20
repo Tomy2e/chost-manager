@@ -16,12 +16,12 @@ class CodesActivation
             $code
         ));
 
-        $code = $prep_getCode->fetch();
+        $code_fetched = $prep_getCode->fetch();
 
-        if(!empty($code)) 
+        if(!empty($code_fetched)) 
         {
             $this->supprimerCode($code);
-            return true;
+            return $code_fetched['VALEUR_CODE'];
         }
         else
         {
