@@ -8,7 +8,7 @@ require_once('includes/Client.class.php');
 require_once('includes/CodesActivation.class.php');
 require_once('includes/Facture.class.php');
 
-if(PAYPAL_ENABLE == true)
+if(PAYPAL_ENABLE == 'YES')
 {
     require 'vendor/autoload.php';
     require_once('includes/EasyPayPal.class.php');
