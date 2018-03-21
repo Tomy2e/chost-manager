@@ -20,6 +20,10 @@ if(!empty($_GET['paymentId']) && !empty($_GET['PayerID']) && PAYPAL_ENABLE == 'Y
   {
       $clientObj->ajouterCredit($credit['montant']);
 
+      $factureCode = new Facture;
+      $factureCode->ajouterAchat("Recharge avec PayPal", $credit['montant'], 0);
+      $factureCode->genererFacture($_SESSION['id_client']);
+
       $view_success = "Votre compte a bien été crédité de " . $credit['montant'] . "€";
   }
 }
@@ -35,6 +39,10 @@ if(!empty($_POST))
     if($montant !== false)
     {
       $clientObj->ajouterCredit($montant);
+
+      $factureCode = new Facture;
+      $factureCode->ajouterAchat("Recharge avec le code : " . htmlspecialchars($_POST['code-activation']), $montant, 0);
+      $factureCode->genererFacture($_SESSION['id_client']);
 
       $view_success = "Votre compte a bien été crédité de " . $montant . "€";
     }

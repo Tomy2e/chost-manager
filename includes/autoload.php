@@ -6,7 +6,7 @@ require_once('includes/config.php');
 require_once('includes/DBmanager.class.php');
 require_once('includes/Client.class.php');
 require_once('includes/CodesActivation.class.php');
-
+require_once('includes/Facture.class.php');
 
 if(PAYPAL_ENABLE == true)
 {
