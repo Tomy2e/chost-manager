@@ -1,3 +1,5 @@
 includes/config.php
-includes/config.example.php
-includes/Client.class.php
+vendor/composer/
+vendor/paypal/
+vendor/psr/
+vendor/autoload.php
