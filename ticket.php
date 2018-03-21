@@ -6,8 +6,13 @@ require_once('includes/Tickets.class.php');
 
 $test = new Ticket;
 
+$id = $_GET['ticket'];
+$tab =$test->getMessage($_GET['ticket']);
 
 //$test->getTicket(1);
+if(!empty($_POST)){
+  $test->addMessage($_POST['message'],"antoine",$tab[0]['ID_TICKET']);
+}
 
 
 
@@ -42,37 +47,35 @@ $test = new Ticket;
         </li>
         <li class="breadcrumb-item active">Mes tickets</li>
       </ol>
-      <div class="row">
-        <div class="col-12">
-          <h1>Mes tickets</h1>
-          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-            <thead>
-              <tr>
-                <th>Type de problème</th>
-                <th>numero ticket</th>
-                <th>Id client</th>
-                <th>Lock</th>
-                <th>Lien</th>
-              </tr>
-            </thead>
-            <tbody>
-            <?php  $tab = $test->getTicket(1);
-          foreach($tab as $value){
-            echo "<tr>";
-            foreach($value as $test){
-              echo "<td>" . $test."</td>";
-            }
-           echo "<td><button onclick=\"window.location.href='./ticket.php?ticket=".$value['ID_TICKET']."'\"type= \"button\" class=\"btn btn-primary btn-lg btn-block\">Lien</button></td>";
-            echo "</tr>";
-            //print_r($value);
-            //href ulr/id=truc ticket
-            echo "<br>";
-          }  ?>
+
+      
+      <?php
+      //print_r($tab);
+      foreach($tab as $msg){
+        echo "<div class=\"card mb-3 \">
+                  <div class=\"card-header\">
+                      ".$msg['PRENOM_AUTEUR']."</div>
+                    <div class=\"card-body bg-info \">
+                      <div class=\"row\">
+                        <div class=\"col-sm-8 my-auto \">
+                          ".$msg['MESSAGE_TICKET']."
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class=\"card-footer small text-muted text-right\">".$msg['DATE_MESSAGE']."</div>
+                  
               
-            </tbody>
-          </table>
-        </div>
-      </div>
+              </div>";
+      
+      }  ?>
+      <form method="POST">
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1"></label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" name="message" placeholder="..." rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
     </div>
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
