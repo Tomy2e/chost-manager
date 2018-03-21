@@ -36,8 +36,8 @@ $insertion->execute(array(
 ));
     
 
-//$id_ticket = $this->db->lastInsertId();
-//$this->addMessage($message,$prenom,$id_ticket);
+$id_ticket = $this->db->lastInsertId();
+$this->addMessage($message,$prenom,$id_ticket);
 
 
     }

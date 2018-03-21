@@ -11,7 +11,7 @@ $tab =$test->getMessage($_GET['ticket']);
 
 //$test->getTicket(1);
 if(!empty($_POST)){
-  $test->addMessage($_POST['message'],"test",$tab[0]['ID_TICKET']);
+  $test->addMessage($_POST['message'],"antoine",$tab[0]['ID_TICKET']);
 }
 
 
@@ -50,31 +50,32 @@ if(!empty($_POST)){
 
       
       <?php
+      //print_r($tab);
       foreach($tab as $msg){
         echo "<div class=\"card mb-3 \">
-            <div class=\"card-header\">
-               ".$msg['PRENOM_AUTEUR']."</div>
-            <div class=\"card-body bg-info \">
-              <div class=\"row\">
-                <div class=\"col-sm-8 my-auto \">
-                  ".$msg['MESSAGE_TICKET']."
-                </div>
+                  <div class=\"card-header\">
+                      ".$msg['PRENOM_AUTEUR']."</div>
+                    <div class=\"card-body bg-info \">
+                      <div class=\"row\">
+                        <div class=\"col-sm-8 my-auto \">
+                          ".$msg['MESSAGE_TICKET']."
+                        </div>
 
-              </div>
-            </div>
-            <div class=\"card-footer small text-muted text-right\">".$msg['DATE_MESSAGE']."</div>
-          </div>
+                      </div>
+                    </div>
+                    <div class=\"card-footer small text-muted text-right\">".$msg['DATE_MESSAGE']."</div>
+                  
+              
+              </div>";
       
-      </div>";
       }  ?>
-
       <form method="POST">
             <div class="form-group">
               <label for="exampleFormControlTextarea1"></label>
               <textarea class="form-control" id="exampleFormControlTextarea1" name="message" placeholder="..." rows="3"></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
+      </form>
     </div>
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
