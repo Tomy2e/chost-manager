@@ -1,6 +1,6 @@
 <?php
 
-class Ticket {
+class Message {
 
     private $id_client;
     private $db;
@@ -11,11 +11,11 @@ class Ticket {
         $this->db = DBmanager::getInstance();
     }
 
-    public function getTicket($id_client)
+    public function getMessage($id_ticket)
     {
-        $prep_fetch = $this->db->prepare("SELECT * FROM tickets where id_client = ?");
+        $prep_fetch = $this->db->prepare("SELECT * FROM tickets where id_ticket = ?");
         $prep_fetch->execute(array(
-            $id_client
+            $id_ticket
 
         ));
 
@@ -36,11 +36,15 @@ $insertion->execute(array(
 ));
     
 
-//$id_ticket = $this->db->lastInsertId();
-//$this->addMessage($message,$prenom,$id_ticket);
+$id_ticket = $this->db->lastInsertId();
+$this->addMessage($message,$prenom,$id_ticket);
 
 
     }
+
+    $id_ticket = $this->db->lastInsertId();
+$this->addMessage($message,$prenom,$id_ticket);
+
 
     public function addMessage($message,$prenom,$id_ticket)
     {
@@ -52,20 +56,6 @@ $insertion->execute(array(
             'prenom' => $prenom,
             'ticket' => $id_ticket
         ));
-    }
-
-    public function getMessage($id_ticket)
-    {
-        $prep_fetch = $this->db->prepare("SELECT * FROM messages where id_ticket = ?");
-        $prep_fetch->execute(array(
-            $id_ticket
-
-        ));
-
-        $fetched = $prep_fetch->fetchAll(PDO::FETCH_ASSOC);
-
-        return $fetched;
-        //print_r($fetched);
     }
 
 }

@@ -1,1 +1,3 @@
 includes/config.php
+includes/config.example.php
+includes/Client.class.php
