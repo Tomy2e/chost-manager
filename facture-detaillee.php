@@ -80,8 +80,11 @@ catch (FactureException $e)
             <td class="total"><?= $facture['TOTAL_FACTURE']; ?>€</td>
           </tr>
           <tr>
-            <td colspan="4">TVA 0%</td>
-            <td class="total">0€</td>
+            <td colspan="4">TVA <?= $facture['TVA']; ?>%</td>
+            <td class="total"><?php 
+            $coefficient = 1 + $facture['TVA'] / 100;
+            echo round($facture['TOTAL_FACTURE'] - $facture['TOTAL_FACTURE'] / $coefficient);
+            ?>€</td>
           </tr>
           <tr>
             <td colspan="4" class="grand total">TOTAL</td>

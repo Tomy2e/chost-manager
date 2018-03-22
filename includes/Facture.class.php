@@ -62,7 +62,7 @@ class Facture
         return $this->db->lastInsertId();
     }
 
-    public function genererFacture($id_client)
+    public function genererFacture($id_client, $tva = 0)
     {
         $total = 0;
 
@@ -78,8 +78,12 @@ class Facture
             $total += $achat['prix'];
         }
 
+        // On calcule le total avec TVA incluse
+        $coefficient = 1 + ($tva/100);
+        $total = round($total * $coefficient, 2);
+
         // Création de la facture
-        $id_facture = $this->creerFacture($id_client, $total);
+        $id_facture = $this->creerFacture($id_client, $total, $tva);
 
         // On ajoute les achats effectués
         foreach($this->achats as $achat)
@@ -94,16 +98,18 @@ class Facture
             }
         }
 
-        return $this->achats;
+        return array("achats" => $this->achats, "total" => $total);
     }
 
-    private function creerFacture($id_client, $total)
+    private function creerFacture($id_client, $totalAvecTva, $tva)
     {
-        $prep_creation = $this->db->prepare("INSERT INTO factures(ID_CLIENT, DATE_FACTURE, TOTAL_FACTURE) VALUES (?,?,?)");
+
+        $prep_creation = $this->db->prepare("INSERT INTO factures(ID_CLIENT, DATE_FACTURE, TOTAL_FACTURE, TVA) VALUES (?,?,?,?)");
         if(!$prep_creation->execute(array(
             $id_client,
             date('Y-m-d H:i:s'),
-            round(floatval($total), 2)
+            round(floatval($totalAvecTva), 2),
+            $tva
         )))
         {
             throw new FactureException("Erreur lors de la création de la facture!");
