@@ -36,12 +36,12 @@ pm.min_spare_servers = 1
 
 pm.max_spare_servers = 3
 
-chroot = ".USER_PATH."$identifiant/www/
-chdir = /
+;chroot = ".USER_PATH."$identifiant/www/
+;chdir = /
 
-php_admin_value[open_basedir]   = /
-php_admin_value[sys_temp_dir]   = /tmp/
-php_admin_value[upload_tmp_dir] = /tmp/
+;php_admin_value[open_basedir]   = /
+;php_admin_value[sys_temp_dir]   = /tmp/
+;php_admin_value[upload_tmp_dir] = /tmp/
         ";
     }
 

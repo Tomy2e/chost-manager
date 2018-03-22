@@ -7,12 +7,20 @@
 > git php7.0-curl composer
 
 ## Configuration PHP7-FPM
+### Accès root
 $ sudo nano /etc/php/7.0/fpm/pool.d/www.conf  
 > user = root  
 > group = root  
 
 
 **Par défaut et pour des raisons de sécurité, php7.0-fpm refusera de démarrer un pool en tant que root. La manipulation à effectuer pour contourner cela sous Ubuntu est la suivante: https://serverfault.com/a/789039**
+
+### Reload
+$ sudo nano /etc/php/7.0/fpm/php-fpm.conf
+
+> process_control_timeout = 60
+
+**Pour éviter de tuer les process durant le reload : https://selivan.github.io/2016/10/25/php-fpm-502-error-on-reload.html**
 
 ## Configuration Nginx
 TODO

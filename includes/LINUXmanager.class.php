@@ -50,10 +50,12 @@ class LINUXmanager {
             throw new LINUXmanagerException("Le répertoire utilisateur/logs n'a pas pu être créé");
         }
 
+        file_put_contents(USER_PATH . $identifiant . '/www/index.html', "<meta charset='utf-8'><h1>Ca marche !!!</h1> <p>Votre espace de stockage est prêt à être utilisé !</p>");
+
         // On définit correctement les permissions (Uniquement sur Linux!!)
         if(strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN')
         {
-            if(!chown(USER_PATH . $identifiant, $identifiant) || !chown(USER_PATH . $identifiant . '/www', $identifiant) || !chown(USER_PATH . $identifiant . '/logs', $identifiant))
+            if(!chown(USER_PATH . $identifiant, $identifiant) || !chown(USER_PATH . $identifiant . '/www', $identifiant) || !chown(USER_PATH . $identifiant . '/logs', $identifiant) || !chown(USER_PATH . $identifiant . '/www/index.html', $identifiant))
             {
                 throw new LINUXmanagerException("Impossible de définir les permissions correctement");
             }

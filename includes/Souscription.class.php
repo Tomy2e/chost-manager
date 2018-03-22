@@ -74,7 +74,7 @@ class Souscription {
         if(!$prep_ajout->execute(array(
             'id_client' => $this->idClient,
             'id_offre' => $id_offre,
-            'expire' => time() + 2628000,
+            'expire' => date('Y-m-d H:i:s', time() + 2628000),
             'identifiant' => $identifiantSouscription,
             'password' => $passwordSouscription,
             'ssdomaine' => $sousdomaine
@@ -123,7 +123,7 @@ class Souscription {
         // PHP
         $phpm = new PHPmanager;
         $phpm->ecrireConf($souscriptionDb['identifiant']);
-        // NE PAS RELOAD MAINTENANT SINON CA CASSE LE SCRIPT
+        $phpm->rechargerServeur();
         
         // NGINX
         $nginxm = new NGINXmanager;
