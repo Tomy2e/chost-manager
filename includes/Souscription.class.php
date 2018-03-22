@@ -4,6 +4,15 @@ class SouscriptionException extends Exception {
 
 }
 
+/* Todo:
+- supprimerSouscription()
+- listerSouscriptions()
+- infosSouscription()
+- suspendreSouscription()
+- renouvelerSouscription()
+- changerMdp()
+*/
+
 class Souscription {
     private $db, $idClient, $clientObj;
 
