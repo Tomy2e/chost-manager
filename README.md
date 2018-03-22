@@ -3,7 +3,8 @@
 ## Packages requis
 > nginx php7.0-fpm mysql-server mysql-client php7.0-mysql pure-ftpd
 
-> git
+## Packages recommandées
+> git php7.0-curl composer
 
 ## Configuration PHP7-FPM
 $ sudo nano /etc/php/7.0/fpm/pool.d/www.conf  
