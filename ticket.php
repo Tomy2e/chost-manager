@@ -7,14 +7,32 @@ require_once('includes/Tickets.class.php');
 $test = new Ticket;
 
 $id = $_GET['ticket'];
+
+
+
+$info = $test->getTicket($_GET['ticket']);
+//if($info['ID_CLIENT'] == 1){
 $tab =$test->getMessage($_GET['ticket']);
 
 //$test->getTicket(1);
-if(!empty($_POST)){
+
+
+if($info[0]['ID_CLIENT'] != 1) {
+  header("Location: mes-tickets.php");
+  exit();}
+
+if(!empty($_POST) && $info[0]['LOCK_TICKET'] == 0){
   $test->addMessage($_POST['message'],"antoine",$tab[0]['ID_TICKET']);
 }
 
 $tab = $test->getMessage($_GET['ticket']);
+//}
+$lock = $info[0]['LOCK_TICKET'];
+if(isset($_GET['action']) && $_GET['action'] == 'LOCK' && $info[0]['LOCK_TICKET'] == 0){
+$test->closeTicket($_GET['ticket']);
+$info = $test->getTicket($_GET['ticket']);
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -47,28 +65,33 @@ $tab = $test->getMessage($_GET['ticket']);
         </li>
         <li class="breadcrumb-item active">Mes tickets</li>
       </ol>
+      <?php if(isset($_GET['action']) && $_GET['action'] == 'LOCK' && $lock == 0): ?>
+      <div class="alert alert-success">
+        <strong>Hourra!</strong> Le ticket a bien été fermé.
+      </div>
+      <?php endif; ?>
 
       
-      <?php
-      //print_r($tab);
-      foreach($tab as $msg){
-        echo "<div class=\"card mb-3 \">
-                  <div class=\"card-header\">
-                      ".$msg['PRENOM_AUTEUR']."</div>
-                    <div class=\"card-body bg-info \">
-                      <div class=\"row\">
-                        <div class=\"col-sm-8 my-auto \">
-                          ".$msg['MESSAGE_TICKET']."
+      <?php 
+      foreach($tab as $msg) : ?>
+              <div class="card mb-3 " style="witdh:80%!important;<?php if($msg['PRENOM_AUTEUR']==$tab[0]['PRENOM_AUTEUR'])echo "";?>">
+                  <div class="card-header">
+                      <?=$msg['PRENOM_AUTEUR'];?></div>
+                    <div class="card-body ">
+                      <div class="row">
+                        <div class="col-sm-8 my-auto ">
+                          <?=$msg['MESSAGE_TICKET'];?>
                         </div>
 
                       </div>
                     </div>
-                    <div class=\"card-footer small text-muted text-right\">".$msg['DATE_MESSAGE']."</div>
+                    <div class="card-footer small text-muted text-right"><?=$msg['DATE_MESSAGE'];?></div>
                   
               
-              </div>";
-      
-      }  ?>
+              </div>
+      <?php endforeach; ?>
+
+      <?php if($info[0]['LOCK_TICKET'] == 0):?>
       <form method="POST">
             <div class="form-group">
               <label for="exampleFormControlTextarea1"></label>
@@ -76,6 +99,11 @@ $tab = $test->getMessage($_GET['ticket']);
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
       </form>
+      <?php else: ?>
+      <div class="alert alert-warning">
+        <strong>Warning!</strong> Indicates a warning that might need attention.
+      </div>
+      <?php endif;?>
     </div>
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->

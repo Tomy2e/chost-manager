@@ -50,20 +50,25 @@ $test = new Ticket;
               <tr>
                 <th>Type de problème</th>
                 <th>numero ticket</th>
-                <th>Id client</th>
-                <th>Lock</th>
                 <th>Lien</th>
+                <th>Etat du ticket</th>
               </tr>
             </thead>
             <tbody>
-            <?php  $tab = $test->getTicket(1);
+            <?php  $tab = $test->getTickets(1);
+            
           foreach($tab as $value){
             echo "<tr>";
-            foreach($value as $test){
-              echo "<td>" . $test."</td>";
-            }
+           
+              echo "<td>" . $value['TYPE_PROBLEME']."</td>";
+              echo "<td>" . $value['ID_TICKET']."</td>";
+            
            echo "<td><button onclick=\"window.location.href='./ticket.php?ticket=".$value['ID_TICKET']."'\"type= \"button\" class=\"btn btn-primary btn-lg btn-block\">Lien</button></td>";
-            echo "</tr>";
+            if($value['LOCK_TICKET'] == 0)
+            echo "<td><button onclick=\"window.location.href='./ticket.php?ticket=".$value['ID_TICKET']."&action=LOCK'\"type= \"button\" class=\"btn btn-primary btn-lg btn-danger btn-block\">Fermer le ticket</button></td></tr>";
+            else
+            echo "<td><button type= \"button\" class=\"btn btn-primary btn-lg btn-danger btn-block disabled\">Ticket fermé</button></td></tr>";
+            
             //print_r($value);
             //href ulr/id=truc ticket
             echo "<br>";

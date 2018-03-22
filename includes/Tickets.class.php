@@ -11,11 +11,24 @@ class Ticket {
         $this->db = DBmanager::getInstance();
     }
 
-    public function getTicket($id_client)
+    public function getTickets($id_client)
     {
         $prep_fetch = $this->db->prepare("SELECT * FROM tickets where id_client = ?");
         $prep_fetch->execute(array(
             $id_client
+
+        ));
+
+        $fetched = $prep_fetch->fetchAll(PDO::FETCH_ASSOC);
+
+        return $fetched;
+        //print_r($fetched);
+    }
+    public function getTicket($id_ticket)
+    {
+        $prep_fetch = $this->db->prepare("SELECT * FROM tickets where id_ticket = ?");
+        $prep_fetch->execute(array(
+            $id_ticket
 
         ));
 
@@ -38,6 +51,19 @@ $insertion->execute(array(
 
 $id_ticket = $this->db->lastInsertId();
 $this->addMessage($message,$prenom,$id_ticket);
+
+
+    }
+
+    public function closeTicket($id_ticket)
+    {
+        $change = $this->db->prepare("UPDATE `tickets` SET `LOCK_TICKET` = '1' WHERE `tickets`.`ID_TICKET` = :id_ticket");
+        $change->execute(array(
+        'id_ticket' => $id_ticket
+    ));
+    
+
+
 
 
     }
