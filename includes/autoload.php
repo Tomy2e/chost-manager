@@ -7,6 +7,13 @@ require_once('includes/DBmanager.class.php');
 require_once('includes/Client.class.php');
 require_once('includes/CodesActivation.class.php');
 require_once('includes/Facture.class.php');
+require_once('includes/Souscription.class.php');
+
+require_once('includes/LINUXmanager.class.php');
+require_once('includes/FTPmanager.class.php');
+require_once('includes/MySQLmanager.class.php');
+require_once('includes/NGINXmanager.class.php');
+require_once('includes/PHPmanager.class.php');
 
 if(PAYPAL_ENABLE == 'YES')
 {

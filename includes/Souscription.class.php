@@ -7,7 +7,7 @@ class SouscriptionException extends Exception {
 class Souscription {
     private $db, $idClient, $clientObj;
 
-    private const TVA = 20; // 20% de TVA
+    const TVA = 20; // 20% de TVA
 
     public function __construct()
     {
@@ -62,7 +62,7 @@ class Souscription {
         $identifiantSouscription = uniqid("hs");
         $passwordSouscription = bin2hex(openssl_random_pseudo_bytes(16));
 
-        if(!this->verifDispoSousdomaine($sousdomaine))
+        if(!$this->verifDispoSousdomaine($sousdomaine))
         {
             throw new SouscriptionException("Le sous domaine n'est pas disponible");
         }
@@ -93,7 +93,7 @@ class Souscription {
             throw new SouscriptionException("ID non initialisé");
         }
 
-        if(!this->verifDispoSousdomaine($sousdomaine))
+        if(!$this->verifDispoSousdomaine($sousdomaine))
         {
             throw new SouscriptionException("Le sous domaine n'est pas disponible");
         }
@@ -108,7 +108,7 @@ class Souscription {
 
         // Création de la facture
         $facture = new Facture;
-        $facture->creerOffre($titre, $prix, $stockage);
+        $facture->ajouterAchat($titre, $prix, $stockage, true);
         $factureSouscription = $facture->genererFacture($this->idClient, self::TVA);
 
         // Ajout de la souscription
@@ -138,7 +138,7 @@ class Souscription {
 
         // FTP
         $ftpm = new FTPmanager;
-        $ftpm->addUser($souscriptionDb['identifiant'], $souscription['password']);
+        $ftpm->addUser($souscriptionDb['identifiant'], $souscriptionDb['password']);
         $ftpm->setQuota($souscriptionDb['identifiant'], intval($stockage));
 
         // Effectuer le paiement depuis le crédit de l'utilisateur
