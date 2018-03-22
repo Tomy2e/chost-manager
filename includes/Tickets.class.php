@@ -26,7 +26,7 @@ class Ticket {
     }
     public function getTicket($id_ticket)
     {
-        $prep_fetch = $this->db->prepare("SELECT * FROM TICKETS where ID_TICKETS = ?");
+        $prep_fetch = $this->db->prepare("SELECT * FROM TICKETS where ID_TICKET = ?");
         $prep_fetch->execute(array(
             $id_ticket
 
