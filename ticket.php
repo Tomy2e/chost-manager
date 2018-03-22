@@ -14,7 +14,7 @@ if(!empty($_POST)){
   $test->addMessage($_POST['message'],"antoine",$tab[0]['ID_TICKET']);
 }
 
-
+$tab = $test->getMessage($_GET['ticket']);
 
 ?>
 <!DOCTYPE html>
