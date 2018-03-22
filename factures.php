@@ -39,7 +39,7 @@ $factures = $facturesObj->listerFactures($_SESSION['id_client']);
       <!-- Breadcrumbs-->
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="index.html">Accueil</a>
+          <a href="index.php">Accueil</a>
         </li>
         <li class="breadcrumb-item active">Mes factures</li>
       </ol>
