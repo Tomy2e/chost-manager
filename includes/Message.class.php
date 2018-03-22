@@ -13,7 +13,7 @@ class Message {
 
     public function getMessage($id_ticket)
     {
-        $prep_fetch = $this->db->prepare("SELECT * FROM tickets where id_ticket = ?");
+        $prep_fetch = $this->db->prepare("SELECT * FROM TICKETS where ID_TICKET = ?");
         $prep_fetch->execute(array(
             $id_ticket
 
@@ -27,7 +27,7 @@ class Message {
 
     public function addTicket($id_client,$server_affecte,$type,$message,$prenom)
     {
-        $insertion = $this->db->prepare("INSERT INTO tickets (TYPE_PROBLEME,ID_CLIENT,LOCK_TICKET) 
+        $insertion = $this->db->prepare("INSERT INTO TICKETS (TYPE_PROBLEME,ID_CLIENT,LOCK_TICKET) 
 VALUES (:type, :client, :lock)");
 $insertion->execute(array(
     'type' => $type,
@@ -42,13 +42,14 @@ $this->addMessage($message,$prenom,$id_ticket);
 
     }
 
-    $id_ticket = $this->db->lastInsertId();
-$this->addMessage($message,$prenom,$id_ticket);
+    /* WTF is this?! */
+    //$id_ticket = $this->db->lastInsertId();
+    //$this->addMessage($message,$prenom,$id_ticket);
 
 
     public function addMessage($message,$prenom,$id_ticket)
     {
-        $insertion = $this->db->prepare("INSERT INTO messages (MESSAGE_TICKET,DATE_MESSAGE,PRENOM_AUTEUR,ID_TICKET) 
+        $insertion = $this->db->prepare("INSERT INTO MESSAGES (MESSAGE_TICKET,DATE_MESSAGE,PRENOM_AUTEUR,ID_TICKET) 
         VALUES (:message, :date, :prenom, :ticket)");
         $insertion->execute(array(
             'message' => $message,

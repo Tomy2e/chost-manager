@@ -27,7 +27,7 @@ class Client
             throw new ClientException("La classe n'est pas initialisée avec un Id");
         }
 
-        $prep_fetchInfos = $this->db->prepare("SELECT * FROM clients WHERE id_client = ?");
+        $prep_fetchInfos = $this->db->prepare("SELECT * FROM CLIENTS WHERE ID_CLIENT = ?");
         $prep_fetchInfos->execute(array(
             $this->id_client
         ));
@@ -68,7 +68,7 @@ class Client
             throw new ClientException("La somme à ajouter doit être supérieure ou égale à 0");
         }
 
-        $addCredit = $this->db->prepare("UPDATE clients SET credit = credit + :ajout WHERE id_client = :id_client");
+        $addCredit = $this->db->prepare("UPDATE CLIENTS SET CREDIT = CREDIT + :ajout WHERE ID_CLIENT = :id_client");
         $addCredit->bindParam(':ajout', $somme, PDO::PARAM_INT);
         $addCredit->bindParam(':id_client', $this->id_client, PDO::PARAM_INT);
         
@@ -94,7 +94,7 @@ class Client
         // On vérifie que le crédit est suffisant
         if(($this->getCredit() - $somme) >= 0)
         {
-            $deduireCredit = $this->db->prepare("UPDATE clients SET credit = credit - :supp WHERE id_client = :id_client");
+            $deduireCredit = $this->db->prepare("UPDATE CLIENTS SET CREDIT = CREDIT - :supp WHERE ID_CLIENT = :id_client");
             $deduireCredit->bindParam(':supp', $somme, PDO::PARAM_INT);
             $deduireCredit->bindParam(':id_client', $this->id_client, PDO::PARAM_INT);
     

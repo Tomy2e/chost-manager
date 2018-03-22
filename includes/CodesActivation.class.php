@@ -11,7 +11,7 @@ class CodesActivation
 
     function utiliserCode($code)
     {
-        $prep_getCode = $this->db->prepare("SELECT * FROM codes_activation WHERE code = ?");
+        $prep_getCode = $this->db->prepare("SELECT * FROM CODES_ACTIVATION WHERE CODE = ?");
         $prep_getCode->execute(array(
             $code
         ));
@@ -31,7 +31,7 @@ class CodesActivation
 
     function supprimerCode($code)
     {
-        $prep_supCode = $this->db->prepare("DELETE FROM codes_activation WHERE code = ?");
+        $prep_supCode = $this->db->prepare("DELETE FROM CODES_ACTIVATION WHERE CODE = ?");
         return $prep_supCode->execute(array(
             $code
         ));

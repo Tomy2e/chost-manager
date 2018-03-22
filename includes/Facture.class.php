@@ -27,7 +27,7 @@ class Facture
     // Utile en cas de renouvellement
     public function ajouterOffre($id_offre)
     {
-        $prep_getOffre = $this->db->prepare("SELECT * FROM offres WHERE ID_OFFRE = ?");
+        $prep_getOffre = $this->db->prepare("SELECT * FROM OFFRES WHERE ID_OFFRE = ?");
         $prep_getOffre->execute(array(
             $id_offre
         ));
@@ -49,7 +49,7 @@ class Facture
 
     private function creerOffre($nom, $prix, $stockage)
     {
-        $prep_creation = $this->db->prepare("INSERT INTO offres(NOM_OFFRE, PRIX_OFFRE, ESPACE_STOCKAGE) VALUES (?,?,?)");
+        $prep_creation = $this->db->prepare("INSERT INTO OFFRES(NOM_OFFRE, PRIX_OFFRE, ESPACE_STOCKAGE) VALUES (?,?,?)");
         if(!$prep_creation->execute(array(
             $nom,
             round(floatval($prix), 2),
@@ -88,7 +88,7 @@ class Facture
         // On ajoute les achats effectués
         foreach($this->achats as $achat)
         {
-            $prep_insertion = $this->db->prepare("INSERT INTO achats (ID_OFFRE, ID_FACTURE) VALUES(?,?)");
+            $prep_insertion = $this->db->prepare("INSERT INTO ACHATS (ID_OFFRE, ID_FACTURE) VALUES(?,?)");
             if(!$prep_insertion->execute(array(
                 $achat['id_achat'],
                 $id_facture
@@ -104,7 +104,7 @@ class Facture
     private function creerFacture($id_client, $totalAvecTva, $tva)
     {
 
-        $prep_creation = $this->db->prepare("INSERT INTO factures(ID_CLIENT, DATE_FACTURE, TOTAL_FACTURE, TVA) VALUES (?,?,?,?)");
+        $prep_creation = $this->db->prepare("INSERT INTO FACTURES(ID_CLIENT, DATE_FACTURE, TOTAL_FACTURE, TVA) VALUES (?,?,?,?)");
         if(!$prep_creation->execute(array(
             $id_client,
             date('Y-m-d H:i:s'),
@@ -120,7 +120,7 @@ class Facture
 
     public function listerFactures($id_client)
     {
-        $prep_listing = $this->db->prepare("SELECT * FROM factures WHERE ID_CLIENT = ?");
+        $prep_listing = $this->db->prepare("SELECT * FROM FACTURES WHERE ID_CLIENT = ?");
         $prep_listing->execute(array($id_client));
 
         $factures = $prep_listing->fetchAll(PDO::FETCH_ASSOC);
@@ -128,7 +128,7 @@ class Facture
         foreach($factures as $key=>$facture)
         {
             // lister les achats
-            $prep_achats = $this->db->prepare("SELECT * FROM offres, achats WHERE ID_FACTURE = ? AND offres.ID_OFFRE = achats.ID_OFFRE");
+            $prep_achats = $this->db->prepare("SELECT * FROM OFFRES, ACHATS WHERE ID_FACTURE = ? AND OFFRES.ID_OFFRE = ACHATS.ID_OFFRE");
             $prep_achats->execute(array($facture['ID_FACTURE']));
 
             $factures[$key]['achats'] = $prep_achats->fetchAll(PDO::FETCH_ASSOC);
@@ -139,7 +139,7 @@ class Facture
 
     public function infosFacture($id_facture)
     {
-        $prep_facture = $this->db->prepare("SELECT * FROM factures WHERE ID_FACTURE = ?");
+        $prep_facture = $this->db->prepare("SELECT * FROM FACTURES WHERE ID_FACTURE = ?");
         $prep_facture->execute(array($id_facture));
 
         $facture = $prep_facture->fetch(PDO::FETCH_ASSOC);
@@ -150,13 +150,13 @@ class Facture
         }
 
         // On récupère les achats
-        $prep_achats = $this->db->prepare("SELECT * FROM offres, achats WHERE ID_FACTURE = ? AND offres.ID_OFFRE = achats.ID_OFFRE");
+        $prep_achats = $this->db->prepare("SELECT * FROM OFFRES, ACHATS WHERE ID_FACTURE = ? AND OFFRES.ID_OFFRE = ACHATS.ID_OFFRE");
         $prep_achats->execute(array($facture['ID_FACTURE']));
 
         $facture['achats'] = $prep_achats->fetchAll(PDO::FETCH_ASSOC);
 
         // On récupère les infos concernant l'utilisateur qui a créé la facture
-        $prep_client = $this->db->prepare("SELECT * FROM clients WHERE ID_CLIENT = ?");
+        $prep_client = $this->db->prepare("SELECT * FROM CLIENTS WHERE ID_CLIENT = ?");
         $prep_client->execute(array($facture['ID_CLIENT']));
 
         $facture['client'] = $prep_client->fetch(PDO::FETCH_ASSOC);

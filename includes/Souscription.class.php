@@ -44,7 +44,7 @@ class Souscription {
             return false;
         }
 
-        $prep_verifDispo = $this->db->prepare("SELECT * FROM souscription WHERE SOUSDOMAINE = ?");
+        $prep_verifDispo = $this->db->prepare("SELECT * FROM SOUSCRIPTION WHERE SOUSDOMAINE = ?");
         $prep_verifDispo->execute(array($sousdomaine));
 
         $verifDispo = $prep_verifDispo->fetch();
@@ -68,7 +68,7 @@ class Souscription {
         }
 
         $prep_ajout = $this->db->prepare("
-        INSERT INTO souscription (ID_CLIENT, ID_OFFRE, EXPIRE, IDENTIFIANT_SOUSCRIPTION, PASSWORD_SOUSCRIPTION, SOUSDOMAINE)
+        INSERT INTO SOUSCRIPTION (ID_CLIENT, ID_OFFRE, EXPIRE, IDENTIFIANT_SOUSCRIPTION, PASSWORD_SOUSCRIPTION, SOUSDOMAINE)
         VALUES (:id_client, :id_offre, :expire, :identifiant, :password, :ssdomaine)");
 
         if(!$prep_ajout->execute(array(
