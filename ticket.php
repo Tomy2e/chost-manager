@@ -101,7 +101,7 @@ $info = $test->getTicket($_GET['ticket']);
       </form>
       <?php else: ?>
       <div class="alert alert-warning">
-        <strong>Warning!</strong> Indicates a warning that might need attention.
+        <strong>Warning!</strong> Ticket fermé donc impossibilité de rajouter des messages.
       </div>
       <?php endif;?>
     </div>
