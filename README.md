@@ -4,7 +4,7 @@
 > nginx php7.0-fpm mysql-server mysql-client php7.0-mysql pure-ftpd
 
 ## Packages recommandées
-> git php7.0-curl composer
+> git php7.0-curl composer postfix
 
 ## Configuration PHP7-FPM
 ### Accès root

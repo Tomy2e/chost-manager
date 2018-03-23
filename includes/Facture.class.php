@@ -98,7 +98,7 @@ class Facture
             }
         }
 
-        return array("achats" => $this->achats, "total" => $total);
+        return array("achats" => $this->achats, "total" => $total, "id_facture" => $id_facture);
     }
 
     private function creerFacture($id_client, $totalAvecTva, $tva)
@@ -162,5 +162,28 @@ class Facture
         $facture['client'] = $prep_client->fetch(PDO::FETCH_ASSOC);
 
         return $facture;
+    }
+
+    public function envoyerMail($userObj, $factureGeneree)
+    {
+        $body = "<html>
+        <head>
+         <title>Votre facture cHost</title>
+        </head>
+        <body>
+        <center style='width:70%;margin:0 auto; border:1px solid black;padding-top:15px;padding-bottom:15px;margin-top:20px;'>
+        <a href='".SITE_URL."'><img src='https://i.imgur.com/FhZkKAh.png'/></a><br />
+        <hr>
+        Bonjour ".$userObj->getPrenom() . " " . $userObj->getNom() . ",<br /><br />
+        Vous avez passé commande chez nous et nous vous en remercions.<br />
+        Votre facture N°".$factureGeneree['id_facture']." de ".$factureGeneree['total']."€ est disponible ici : <a href='".SITE_URL."facture-detaillee.php?id=".$factureGeneree['id_facture']."'>".SITE_URL."facture-detaillee.php?id=".$factureGeneree['id_facture']."</a>. <br />
+        <br />
+        Cordialement, l'équipe cHost.
+        </center>
+  
+        </body>
+       </html>";
+       
+       return MAILmanager::send($userObj->getEmail(), "Votre facture cHost", $body, true);
     }
 }

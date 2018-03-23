@@ -123,4 +123,35 @@ class Client
 
         return $this->credit;
     }
+
+    public function getPrenom()
+    {
+        if(empty($this->id_client))
+        {
+            throw new ClientException("La classe n'est pas initialisée avec un Id");
+        }
+        
+        return $this->prenom;
+    }
+
+    public function getEmail()
+    {
+        if(empty($this->id_client))
+        {
+            throw new ClientException("La classe n'est pas initialisée avec un Id");
+        }
+        
+        return $this->email;
+    }
+
+
+    public function getNom()
+    {
+        if(empty($this->id_client))
+        {
+            throw new ClientException("La classe n'est pas initialisée avec un Id");
+        }
+
+        return $this->nom;
+    }
 }

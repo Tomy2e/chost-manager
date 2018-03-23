@@ -127,3 +127,13 @@ define('PAYPAL_ENABLE', 'NO');
 */
 define('PAYPAL_CLIENT_ID', '');
 define('PAYPAL_CLIENT_SECRET', '');
+
+/*
+    * Adresse email expéditeur
+*/
+define('EMAIL_FROM', 'noreply@chost.com');
+
+/* 
+    * URL pointant vers le manager
+*/
+define('SITE_URL', 'http://localhost/chost-manager/');

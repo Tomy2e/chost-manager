@@ -8,6 +8,7 @@ require_once('includes/Client.class.php');
 require_once('includes/CodesActivation.class.php');
 require_once('includes/Facture.class.php');
 require_once('includes/Souscription.class.php');
+require_once('includes/MAILmanager.class.php');
 
 require_once('includes/LINUXmanager.class.php');
 require_once('includes/FTPmanager.class.php');
