@@ -1,5 +1,23 @@
 <?php
 if(!defined('ENVIRONMENT')) { exit(); } // On empêche l'accès direct en HTTP
+
+if(isset($clientObj))
+{
+  $creditDisp = $clientObj->getCredit(true);
+}
+else
+{
+  $creditDisp = 0;
+}
+
+if(isset($souscriptionObj))
+{
+  $souscriptionsDisp = $souscriptionObj->listerSouscriptions();
+}
+else
+{
+  $souscriptionsDisp = array();
+}
 ?>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
     <a class="navbar-brand" href="index.php">cHost</a>
@@ -20,9 +38,11 @@ if(!defined('ENVIRONMENT')) { exit(); } // On empêche l'accès direct en HTTP
             <span class="nav-link-text">Mes hébergements</span>
           </a>
           <ul class="sidenav-second-level collapse" id="collapseComponents">
+          <?php foreach($souscriptionsDisp as $souscription) : ?>
             <li>
-              <a href="hebergement.php?id=hs9910">hs9910 - monsupersite.chost.io</a>
+              <a href="hebergement.php?id=<?= $souscription['IDENTIFIANT_SOUSCRIPTION']; ?>"><?= $souscription['SOUSDOMAINE']; ?>.<?= USER_DOMAIN; ?></a>
             </li>
+          <?php endforeach; ?>
             <li>
               <a href="commander.php">Commander un hébergement</a>
             </li>
@@ -37,7 +57,7 @@ if(!defined('ENVIRONMENT')) { exit(); } // On empêche l'accès direct en HTTP
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Mon crédit">
           <a class="nav-link" href="credit.php">
             <i class="fa fa-fw fa-btc"></i>
-            <span class="nav-link-text">Mon crédit (TODO €)</span>
+            <span class="nav-link-text">Mon crédit (<?= $creditDisp; ?>€)</span>
           </a>
         </li>
 

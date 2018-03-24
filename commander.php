@@ -13,9 +13,6 @@ if(!isConnected()) {
   3 - Affichage message de confirmation ou d'erreur
 */
 
-$souscriptionObj = new Souscription;
-$souscriptionObj->setIdClient($_SESSION['id_client']);
-
 $offres = array(
   array(
     "code" => "disco2018",
@@ -192,7 +189,7 @@ if($step == 2 && !empty($_POST))
         <div class="col-12 mt-3">
           <h1>Paramètres</h1>
           <form action="" method="post">
-          <label for="basic-url">Sous-domaine:</label>
+          <label for="basic-url">Sous-domaine (caractères alpha-numériques uniquement, moins de 30 caractères autorisés):</label>
           <div class="input-group mb-3">
             <input type="text" name="sous-domaine" value="<?= (!empty($_POST['sous-domaine'])) ? htmlspecialchars($_POST['sous-domaine']) : ''; ?>" class="form-control" id="basic-url" aria-describedby="basic-addon3">
             <div class="input-group-append">

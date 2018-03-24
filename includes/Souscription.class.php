@@ -48,6 +48,11 @@ class Souscription {
             return false;
         }
 
+        if(strlen($sousdomaine) > 30)
+        {
+            return false;
+        }
+
         if(in_array($sousdomaine, $reserves)) 
         {
             return false;
@@ -119,6 +124,8 @@ class Souscription {
         $facture = new Facture;
         $facture->ajouterAchat($titre, $prix, $stockage, true);
         $factureSouscription = $facture->genererFacture($this->idClient, self::TVA);
+        
+        $facture->envoyerMail($this->clientObj, $factureSouscription);
 
         // Ajout de la souscription
         $souscriptionDb = $this->creerSouscription($factureSouscription['achats'][0]['id_achat'], $sousdomaine);
@@ -157,6 +164,29 @@ class Souscription {
         }
         
         // Todo : envoyer un mail
+        MAILmanager::send($this->clientObj->getEmail(), "Votre hébergement cHost", "<html>
+        <head>
+         <title>Votre hébergement cHost</title>
+        </head>
+        <body>
+        <center style='width:70%;margin:0 auto; border:1px solid black;padding-top:15px;padding-bottom:15px;margin-top:20px;'>
+        <a href='".SITE_URL."'><img src='https://i.imgur.com/FhZkKAh.png'/></a><br />
+        <hr>
+        Bonjour ".$this->clientObj->getPrenom() . " " . $this->clientObj->getNom() . ",<br /><br />
+        Nous sommes heureux de vous annoncer que votre hébergement est dès maintenant accessible à l'adresse suivante : <a href='http://$sousdomaine.".USER_DOMAIN."'>http://$sousdomaine.".USER_DOMAIN."</a>.<br /><br />
+        Veuillez conserver précieusement les identifiants suivants qui vous permettront d'administrer votre site web :<br />
+        Nom d'utilisateur : ".$souscriptionDb['identifiant']."<br />
+        Mot de passe : ".$souscriptionDb['password']."<br /><br />
+        Ces identifiants sont notamment valides aux endroits suivants : <br />
+        Notre serveur FTP : ".SITE_FTP."<br />
+        Notre base de données MySQL : ".SITE_SQLADMIN."<br /><br />
+        Nos équipes restent bien entendu à votre dispositions via l'onglet support accessible sur votre espace client.<br />
+        <br />
+        Cordialement, l'équipe cHost.
+        </center>
+  
+        </body>
+       </html>", true);
 
         return $souscriptionDb;
     }
@@ -188,5 +218,13 @@ class Souscription {
         }
         
         return true;
+    }
+
+    public function infoSouscription($identifiantSouscription)
+    {
+        $prep_infos = $this->db->prepare("SELECT * FROM SOUSCRIPTION, CLIENTS, OFFRES WHERE IDENTIFIANT_SOUSCRIPTION = ? AND CLIENTS.ID_CLIENT = SOUSCRIPTION.ID_CLIENT AND OFFRES.ID_OFFRE = SOUSCRIPTION.ID_OFFRE");
+        $prep_infos->execute(array($identifiantSouscription));
+
+        return $prep_infos->fetch(PDO::FETCH_ASSOC);
     }
 }

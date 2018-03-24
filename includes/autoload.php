@@ -55,4 +55,7 @@ if(isConnected())
         header("Location: connexion.php");
         exit();
     }
+
+    $souscriptionObj = new Souscription;
+    $souscriptionObj->setIdClient($_SESSION['id_client']);
 }

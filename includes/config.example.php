@@ -137,3 +137,13 @@ define('EMAIL_FROM', 'noreply@chost.com');
     * URL pointant vers le manager
 */
 define('SITE_URL', 'http://localhost/chost-manager/');
+
+/*
+    * URL pointant vers phpMyAdmin
+*/
+define('SITE_SQLADMIN', 'http://localhost/phpmyadmin');
+
+/*
+    * Adresse publique du serveur FTP (ip ou domaine)
+*/
+define('SITE_FTP', 'chost.io');

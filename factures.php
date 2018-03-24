@@ -60,7 +60,7 @@ $factures = $facturesObj->listerFactures($_SESSION['id_client']);
             <tbody>
             <?php foreach($factures as $facture) : ?>
               <tr>
-                <td>#<?=$facture['ID_FACTURE']; ?></td>
+                <td><?=$facture['ID_FACTURE']; ?></td>
                 <td><?= $facture['DATE_FACTURE']; ?></td>
                 <td><?= $facture['TOTAL_FACTURE']; ?>€</td>
                 <td><a class="btn btn-primary" target="_blank" href="facture-detaillee.php?id=<?= $facture['ID_FACTURE']; ?>" role="button">Voir la facture en détail</a></td>
