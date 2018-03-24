@@ -150,11 +150,43 @@ class Souscription {
         $ftpm->addUser($souscriptionDb['identifiant'], $souscriptionDb['password']);
         $ftpm->setQuota($souscriptionDb['identifiant'], intval($stockage));
 
-        // Effectuer le paiement depuis le crédit de l'utilisateur
-        $this->clientObj->deduireCredit($factureSouscription['total']);
-
+        // Effectuer le paiement depuis le crédit de l'utilisateur (sauf si l'abonnement est gratuit..)
+        if($prix > 0)
+        {
+            $this->clientObj->deduireCredit($factureSouscription['total']);
+        }
+        
         // Todo : envoyer un mail
 
         return $souscriptionDb;
+    }
+
+    public function listerSouscriptions()
+    {
+        if(empty($this->idClient))
+        {
+            throw new SouscriptionException("ID non initialisé");
+        }
+
+        $prep_list = $this->db->prepare("SELECT * FROM SOUSCRIPTION, OFFRES WHERE ID_CLIENT = ? AND SOUSCRIPTION.ID_OFFRE = OFFRES.ID_OFFRE");
+        $prep_list->execute(array(
+            $this->idClient
+        ));
+
+        return $prep_list->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // On veut savoir si l'utilisateur n'a pas déjà un abonnement GRATUIT
+    public function eligibleOffreEssai()
+    {
+        foreach($this->listerSouscriptions() as $souscription)
+        {
+            if($souscription['PRIX_OFFRE'] == 0 && $souscription['ESPACE_STOCKAGE'] > 0)
+            {
+                return false;
+            }
+        }
+        
+        return true;
     }
 }
