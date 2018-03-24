@@ -79,7 +79,7 @@ class LINUXmanager {
         }
     }
 
-    /* Retourne en octet la taille occupée par un identifiant */
+    /* Retourne en megaoctet la taille occupée par un identifiant */
     function getDirSize($identifiant)
     {
         $dir = USER_PATH . $identifiant;
@@ -96,6 +96,6 @@ class LINUXmanager {
             $size += $file->getSize();
         }
 
-        return $size;
+        return $size/1000000;
     }
 }

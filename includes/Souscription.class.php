@@ -224,7 +224,14 @@ class Souscription {
     {
         $prep_infos = $this->db->prepare("SELECT * FROM SOUSCRIPTION, CLIENTS, OFFRES WHERE IDENTIFIANT_SOUSCRIPTION = ? AND CLIENTS.ID_CLIENT = SOUSCRIPTION.ID_CLIENT AND OFFRES.ID_OFFRE = SOUSCRIPTION.ID_OFFRE");
         $prep_infos->execute(array($identifiantSouscription));
+        $infos = $prep_infos->fetch(PDO::FETCH_ASSOC);
 
-        return $prep_infos->fetch(PDO::FETCH_ASSOC);
+        $linuxm = new LINUXmanager;
+
+        $infos['DIRSIZE'] = $linuxm->getDirSize($infos['IDENTIFIANT_SOUSCRIPTION']);
+        $infos['POURCENTAGE_UTILISATION_DISQUE'] = intval((100 * $infos['DIRSIZE']) / $infos['ESPACE_STOCKAGE']);
+        $infos['POURCENTAGE_UTILISATION_DISQUE'] = ($infos['POURCENTAGE_UTILISATION_DISQUE'] > 100) ? 100 : $infos['POURCENTAGE_UTILISATION_DISQUE'];
+
+        return $infos;
     }
 }
