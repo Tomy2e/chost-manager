@@ -43,7 +43,7 @@ class Ticket {
         $insertion = $this->db->prepare("INSERT INTO TICKETS (TYPE_PROBLEME,ID_CLIENT,LOCK_TICKET) 
 VALUES (:type, :client, :lock)");
 $insertion->execute(array(
-    'type' => $type,
+    'type' => htmlspecialchars($type),
     'client' => $id_client,
     'lock' => 0
 ));
@@ -52,7 +52,7 @@ $insertion->execute(array(
 $id_ticket = $this->db->lastInsertId();
 $this->addMessage($message,$prenom,$id_ticket);
 
-
+        return $id_ticket;
     }
 
     public function closeTicket($id_ticket)
@@ -70,12 +70,13 @@ $this->addMessage($message,$prenom,$id_ticket);
 
     public function addMessage($message,$prenom,$id_ticket)
     {
+        print_r($id_ticket);
         $insertion = $this->db->prepare("INSERT INTO MESSAGES (MESSAGE_TICKET,DATE_MESSAGE,PRENOM_AUTEUR,ID_TICKET) 
         VALUES (:message, :date, :prenom, :ticket)");
         $insertion->execute(array(
-            'message' => $message,
+            'message' => htmlspecialchars($message),
             'date' => date('Y-m-d H:i:s'),
-            'prenom' => $prenom,
+            'prenom' => htmlspecialchars($prenom),
             'ticket' => $id_ticket
         ));
     }

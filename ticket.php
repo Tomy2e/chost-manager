@@ -1,8 +1,10 @@
-<?php
-require_once('includes/config.php');
-require_once('includes/DBmanager.class.php');
+<?php 
+require_once('includes/autoload.php');
 
-require_once('includes/Tickets.class.php');
+if(!isConnected()) {
+  header("Location: connexion.php");
+  exit();
+}
 
 $test = new Ticket;
 
@@ -17,12 +19,12 @@ $tab =$test->getMessage($_GET['ticket']);
 //$test->getTicket(1);
 
 
-if($info[0]['ID_CLIENT'] != 1) {
+if($info[0]['ID_CLIENT'] != $_SESSION['id_client']) {
   header("Location: mes-tickets.php");
   exit();}
 
 if(!empty($_POST) && $info[0]['LOCK_TICKET'] == 0){
-  $test->addMessage($_POST['message'],"antoine",$tab[0]['ID_TICKET']);
+  $test->addMessage($_POST['message'], $clientObj->getPrenom() . ' ' . $clientObj->getNom()[0] . '.' ,$tab[0]['ID_TICKET']);
 }
 
 $tab = $test->getMessage($_GET['ticket']);
@@ -63,11 +65,21 @@ $info = $test->getTicket($_GET['ticket']);
         <li class="breadcrumb-item">
           <a href="index.php">Accueil</a>
         </li>
-        <li class="breadcrumb-item active">Mes tickets</li>
+        <li class="breadcrumb-item">
+          <a href="mes-tickets.php">Mes tickets</a>
+        </li>
+        <li class="breadcrumb-item active">Ticket #<?= $_GET['ticket']; ?> (<?= $info[0]['TYPE_PROBLEME']; ?>)</li>
       </ol>
       <?php if(isset($_GET['action']) && $_GET['action'] == 'LOCK' && $lock == 0): ?>
       <div class="alert alert-success">
         <strong>Hourra!</strong> Le ticket a bien été fermé.
+      </div>
+      <?php endif; ?>
+
+      <?php if(isset($_GET['opened'])) : ?>
+      <div class="alert alert-success" role="alert">
+        Votre ticket a bien été ouvert. Un technicien vous répondra dans les plus brefs délais.<br />
+        N'hésitez pas à rajouter plus de détails le temps que nous vous répondions.
       </div>
       <?php endif; ?>
 
@@ -92,16 +104,18 @@ $info = $test->getTicket($_GET['ticket']);
       <?php endforeach; ?>
 
       <?php if($info[0]['LOCK_TICKET'] == 0):?>
-      <form method="POST">
+      <form method="POST" class="mb-3">
             <div class="form-group">
               <label for="exampleFormControlTextarea1"></label>
               <textarea class="form-control" id="exampleFormControlTextarea1" name="message" placeholder="..." rows="3"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Envoyer</button> <a class="btn btn-danger" href="ticket.php?ticket=<?= $_GET['ticket']; ?>&action=LOCK" role="button">Fermer le ticket</a>
+
+
       </form>
       <?php else: ?>
       <div class="alert alert-warning">
-        <strong>Warning!</strong> Ticket fermé donc impossibilité de rajouter des messages.
+        <strong>Ticket fermé !</strong> Vous ne pouvez plus ajouter de messages. Veuillez ouvrir un autre ticket.
       </div>
       <?php endif;?>
     </div>

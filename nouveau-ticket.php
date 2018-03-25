@@ -1,14 +1,20 @@
 <?php 
-require_once('includes/config.php');
-require_once('includes/DBmanager.class.php');
+require_once('includes/autoload.php');
 
-require_once('includes/Tickets.class.php');
+if(!isConnected()) {
+  header("Location: connexion.php");
+  exit();
+}
 
 $test = new Ticket;
 
 
 if(!empty($_POST)){
-  $test->addTicket(1,1,$_POST['type'],$_POST['message'],"tomy");
+
+  $nouveau_ticket = $test->addTicket($_SESSION['id_client'], 1, $_POST['type'], $_POST['message'], $clientObj->getPrenom() . ' ' . $clientObj->getNom()[0] . '.');
+
+  header("Location: ticket.php?ticket=$nouveau_ticket&opened");
+  exit();
 }
 
 
@@ -52,12 +58,16 @@ if(!empty($_POST)){
           <h1>Nouveau ticket</h1>
             <form method="POST">
             <select class="custom-select mb-3">
-              <option selected>serveur affecté</option>
+              <option selected>Hébergement affecté</option>
+              <?php foreach ($souscriptionObj->listerSouscriptions() as $souscription) : ?>
+              <option value="<?= $souscription['IDENTIFIANT_SOUSCRIPTION']; ?>"><?= $souscription['SOUSDOMAINE']; ?>.<?= USER_DOMAIN; ?> (<?= $souscription['IDENTIFIANT_SOUSCRIPTION']; ?>)</option>
+              <?php endforeach; ?>
+              <option>Aucun</option>
             </select>
             
             <select name="type" class="custom-select">
-              <option selected>Types de problèmes</option>
-              <option value="Payement">Payement</option>
+              <option selected>Type de problème</option>
+              <option value="Paiement">Paiement</option>
               <option value="Domaine">Nom de domaine</option>
               <option value="Acces">Accès FTP</option>
               <option value="Autre">Autre</option>
@@ -66,7 +76,7 @@ if(!empty($_POST)){
               <label for="exampleFormControlTextarea1"></label>
               <textarea class="form-control" id="exampleFormControlTextarea1" name="message" placeholder="Description du problème" rows="3"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Ouvrir le ticket</button>
           </form>
         </div>
       </div>

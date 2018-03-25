@@ -1,8 +1,10 @@
 <?php
-require_once('includes/config.php');
-require_once('includes/DBmanager.class.php');
+require_once('includes/autoload.php');
 
-require_once('includes/Tickets.class.php');
+if(!isConnected()) {
+  header("Location: connexion.php");
+  exit();
+}
 
 $test = new Ticket;
 
@@ -28,6 +30,8 @@ $test = new Ticket;
   <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">
+  <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -42,14 +46,16 @@ $test = new Ticket;
         </li>
         <li class="breadcrumb-item active">Mes tickets</li>
       </ol>
-      <div class="row">
-        <div class="col-12">
-          <h1>Mes tickets</h1>
+      <div class="card mb-3">
+      <div class="card-header">
+        <i class="fa fa-life-ring"></i> Vos tickets</div>
+      <div class="card-body">
+        <div class="table-responsive">
           <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
               <tr>
-                <th>Type de problème</th>
                 <th>numero ticket</th>
+                <th>Type de problème</th>
                 <th>Lien</th>
                 <th>Etat du ticket</th>
               </tr>
@@ -59,9 +65,9 @@ $test = new Ticket;
             
           foreach($tab as $value){
             echo "<tr>";
-           
-              echo "<td>" . $value['TYPE_PROBLEME']."</td>";
               echo "<td>" . $value['ID_TICKET']."</td>";
+              echo "<td>" . $value['TYPE_PROBLEME']."</td>";
+
             
            echo "<td><button onclick=\"window.location.href='./ticket.php?ticket=".$value['ID_TICKET']."'\"type= \"button\" class=\"btn btn-primary btn-lg btn-block\">Lien</button></td>";
             if($value['LOCK_TICKET'] == 0)
@@ -71,12 +77,12 @@ $test = new Ticket;
             
             //print_r($value);
             //href ulr/id=truc ticket
-            echo "<br>";
           }  ?>
               
             </tbody>
           </table>
-        </div>
+          </div>
+      </div>
       </div>
     </div>
     <!-- /.container-fluid-->
@@ -111,6 +117,11 @@ $test = new Ticket;
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin.min.js"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="js/sb-admin-datatables.min.js"></script>
+
   </div>
 </body>
 
