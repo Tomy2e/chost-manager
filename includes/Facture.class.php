@@ -43,7 +43,7 @@ class Facture
             "id_achat" => $offre['ID_OFFRE'],
             "nom" => $offre['NOM_OFFRE'],
             "prix" => $offre['PRIX_OFFRE'],
-            "stockage" => $offre['STOCKAGE']
+            "stockage" => $offre['ESPACE_STOCKAGE']
         ));
     }
 

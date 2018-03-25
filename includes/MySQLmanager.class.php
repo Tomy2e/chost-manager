@@ -98,8 +98,21 @@ class MySQLmanager {
         {
             throw new MySQLmanagerException("L'identifiant doit être alpha numérique !");
         }
+        
+        $MySQLversion = $this->pdoHandle->getAttribute(PDO::ATTR_SERVER_VERSION);
 
-        $updatePassword = $this->pdoHandle->prepare("ALTER USER $username@'localhost' IDENTIFIED BY ?;");
+        $comparaison = version_compare($MySQLversion, "5.7.5");
+
+        if($comparaison <= 1)
+        {
+            $sqlQuery = "SET PASSWORD FOR '$username'@'localhost' = PASSWORD(?);";
+        }
+        else
+        {
+            $sqlQuery = "ALTER USER '$username'@'localhost' IDENTIFIED BY ?;";
+        }
+
+        $updatePassword = $this->pdoHandle->prepare($sqlQuery);
         if($updatePassword->execute(array(
             $password
         )) === false)

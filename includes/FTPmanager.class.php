@@ -82,7 +82,7 @@ class FTPmanager {
 
             shell_exec($commande);
 
-            $this->mbDb();
+            $this->mkDb();
         }
     }
 
@@ -103,7 +103,7 @@ class FTPmanager {
 
             shell_exec($commande);
 
-            $this->mbDb();
+            $this->mkDb();
         }
     }
 

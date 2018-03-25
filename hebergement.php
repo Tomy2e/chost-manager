@@ -17,6 +17,40 @@ if($infoSouscription['ID_CLIENT'] != $_SESSION['id_client'])
     exit();    
 }
 
+if(!empty($_GET['action']) && !empty($_GET['code']) && ($_GET['code'] == md5($infoSouscription['EXPIRE']) || $_GET['code'] == md5($infoSouscription['PASSWORD_SOUSCRIPTION'])))
+{
+  switch($_GET['action'])
+  {
+    case 'renouveler':
+    try {
+      $souscriptionObj->renouvelerSouscription($infoSouscription['IDENTIFIANT_SOUSCRIPTION']);
+
+      $view_success = "Votre abonnement a bien été renouvelé pour 1 mois, vous allez bientôt recevoir un mail avec votre facture";
+
+      $infoSouscription = $souscriptionObj->infoSouscription($_GET['id']);
+      
+    } catch(Exception $e)
+    {
+      $view_error = $e->getMessage();
+    }
+    break;
+
+    case 'reset':
+    try {
+      $souscriptionObj->changerMdp($infoSouscription['IDENTIFIANT_SOUSCRIPTION']);
+
+      $view_success = "Vous allez recevoir un mail contenant votre nouveau mot de passe, veuillez vérifier vos spams si vous ne voyez pas de mail dans votre boîte de réception";
+
+      $infoSouscription = $souscriptionObj->infoSouscription($_GET['id']);
+      
+    } catch(Exception $e)
+    {
+      $view_error = $e->getMessage();
+    }
+    break;
+  }
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -179,8 +213,8 @@ if($infoSouscription['ID_CLIENT'] != $_SESSION['id_client'])
               <i class="fa fa-cogs"></i> Autres actions</div>
             <div class="card-body">
 
-            <a class="btn btn-primary btn-block" href="#" role="button">Renouveler pour 1 mois</a>
-            <a class="btn btn-warning btn-block" href="#" role="button">Changer le mot de passe FTP et MySQL</a>
+            <a class="btn btn-primary btn-block" href="#" data-toggle="modal" data-target="#renewModal" role="button">Renouveler pour 1 mois</a>
+            <a class="btn btn-warning btn-block" href="#" data-toggle="modal" data-target="#resetModal" role="button">Changer le mot de passe FTP et MySQL</a>
             <a class="btn btn-danger btn-block" href="#" role="button">Résilier l'abonnement</a>
 
 
@@ -212,6 +246,62 @@ if($infoSouscription['ID_CLIENT'] != $_SESSION['id_client'])
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
             <a class="btn btn-primary" href="login.html">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL RESET PW-->
+    <div class="modal fade" id="resetModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Réinitialiser le mot de passe SQL et FTP ?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Vous recevrez un nouveau mot de passe par email pour l'identifiant <?= $infoSouscription['IDENTIFIANT_SOUSCRIPTION']; ?>.<br />
+          <strong>L'ancien mot de passe deviendra invalide et vous devrez par conséquent mettre à jour vos scripts utilisant cet ancien mot de passe !</strong></div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
+            <a class="btn btn-primary" href="hebergement.php?id=<?= $infoSouscription['IDENTIFIANT_SOUSCRIPTION']; ?>&action=reset&code=<?= md5($infoSouscription['PASSWORD_SOUSCRIPTION']); ?>">Confirmer</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL RENEW -->
+    <div class="modal fade" id="renewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Renouveler votre abonnement pour 1 mois ?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+          <?php if($infoSouscription['PRIX_OFFRE_TTC'] == 0): ?>
+          <div class="alert alert-warning" role="alert">
+            Vous ne pouvez pas renouveler une souscription gratuite
+          </div>
+          <?php elseif($clientObj->getCredit() >= $infoSouscription['PRIX_OFFRE_TTC']): ?>
+            Votre abonnement sera renouvelé pour 1 mois au prix de <strong><?= $infoSouscription['PRIX_OFFRE_TTC']; ?>€ TTC</strong>.<br />
+            Vous recevrez un mail de confirmation<br />
+            Cliquez sur "Payer" pour confirmer votre achat.
+          <?php else: ?>
+          Votre abonnement sera renouvelé pour 1 mois au prix de <strong><?= $infoSouscription['PRIX_OFFRE_TTC']; ?>€ TTC</strong>.
+          <div class="alert alert-danger" role="alert">
+            Vous n'avez pas assez d'argent sur votre compte pour pouvoir renouveler cet abonnement
+          </div>
+          <?php endif; ?>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Fermer</button>
+            <?php if($infoSouscription['PRIX_OFFRE_TTC'] > 0 && $clientObj->getCredit() >= $infoSouscription['PRIX_OFFRE_TTC']) : ?>
+            <a class="btn btn-primary" href="hebergement.php?id=<?= $infoSouscription['IDENTIFIANT_SOUSCRIPTION']; ?>&action=renouveler&code=<?= md5($infoSouscription['EXPIRE']); ?>">Payer</a>
+            <?php endif; ?>
           </div>
         </div>
       </div>
