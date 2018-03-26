@@ -41,16 +41,16 @@ class Ticket {
     public function addTicket($id_client,$server_affecte,$type,$message,$prenom)
     {
         $insertion = $this->db->prepare("INSERT INTO TICKETS (TYPE_PROBLEME,ID_CLIENT,LOCK_TICKET) 
-VALUES (:type, :client, :lock)");
-$insertion->execute(array(
-    'type' => htmlspecialchars($type),
-    'client' => $id_client,
-    'lock' => 0
-));
+        VALUES (:type, :client, :lock)");
+        $insertion->execute(array(
+            'type' => htmlspecialchars($type),
+            'client' => $id_client,
+            'lock' => 0
+        ));
     
 
-$id_ticket = $this->db->lastInsertId();
-$this->addMessage($message,$prenom,$id_ticket);
+        $id_ticket = $this->db->lastInsertId();
+        $this->addMessage($message,$prenom,$id_ticket);
 
         return $id_ticket;
     }

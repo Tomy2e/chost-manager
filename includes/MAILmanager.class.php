@@ -19,7 +19,7 @@ class MAILmanager {
 
         if($isHTML) 
         {
-            $headers  = "\r\n" . 'MIME-Version: 1.0';
+            $headers .= "\r\n" . 'MIME-Version: 1.0';
             $headers .= "\r\nContent-Type: text/html; charset=\"utf-8\"";
         }
 
