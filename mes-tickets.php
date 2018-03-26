@@ -62,23 +62,23 @@ $test = new Ticket;
             </thead>
             <tbody>
             <?php  $tab = $test->getTickets(1);
-            
+
           foreach($tab as $value){
             echo "<tr>";
               echo "<td>" . $value['ID_TICKET']."</td>";
               echo "<td>" . $value['TYPE_PROBLEME']."</td>";
 
-            
+
            echo "<td><button onclick=\"window.location.href='./ticket.php?ticket=".$value['ID_TICKET']."'\"type= \"button\" class=\"btn btn-primary btn-lg btn-block\">Lien</button></td>";
             if($value['LOCK_TICKET'] == 0)
             echo "<td><button onclick=\"window.location.href='./ticket.php?ticket=".$value['ID_TICKET']."&action=LOCK'\"type= \"button\" class=\"btn btn-primary btn-lg btn-danger btn-block\">Fermer le ticket</button></td></tr>";
             else
             echo "<td><button type= \"button\" class=\"btn btn-primary btn-lg btn-danger btn-block disabled\">Ticket fermé</button></td></tr>";
-            
+
             //print_r($value);
             //href ulr/id=truc ticket
           }  ?>
-              
+
             </tbody>
           </table>
           </div>
@@ -87,7 +87,7 @@ $test = new Ticket;
     </div>
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
-    <?php require_once('includes/footer.template.php'); ?>    
+    <?php require_once('includes/footer.template.php'); ?>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
       <i class="fa fa-angle-up"></i>
@@ -105,7 +105,7 @@ $test = new Ticket;
           <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
+            <a class="btn btn-primary" href="../chost-vitrine/index.html">Logout</a>
           </div>
         </div>
       </div>

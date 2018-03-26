@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once('includes/autoload.php');
 
 if(!isConnected()) {
@@ -89,7 +89,7 @@ if(!isConnected()) {
     </div>
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
-    <?php require_once('includes/footer.template.php'); ?>    
+    <?php require_once('includes/footer.template.php'); ?>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
       <i class="fa fa-angle-up"></i>
@@ -107,7 +107,7 @@ if(!isConnected()) {
           <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
+            <a class="btn btn-primary" href="../chost-vitrine/index.html">Logout</a>
           </div>
         </div>
       </div>

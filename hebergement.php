@@ -14,7 +14,7 @@ $infoSouscription = $souscriptionObj->infoSouscription($_GET['id']);
 if(empty($infoSouscription) || $infoSouscription['ID_CLIENT'] != $_SESSION['id_client'])
 {
     header("Location: index.php");
-    exit();    
+    exit();
 }
 
 if(!empty($_POST['mdp']) && !empty($_POST['action'])
@@ -34,7 +34,7 @@ if(!empty($_POST['mdp']) && !empty($_POST['action'])
   {
     $view_error = "Impossible de résilier la souscription : le mot de passe est incorrect";
   }
-  
+
 }
 
 if(!empty($_GET['action']) && !empty($_GET['code']) && ($_GET['code'] == md5($infoSouscription['EXPIRE']) || $_GET['code'] == md5($infoSouscription['PASSWORD_SOUSCRIPTION'])))
@@ -48,7 +48,7 @@ if(!empty($_GET['action']) && !empty($_GET['code']) && ($_GET['code'] == md5($in
       $view_success = "Votre abonnement a bien été renouvelé pour 1 mois, vous allez bientôt recevoir un mail avec votre facture";
 
       $infoSouscription = $souscriptionObj->infoSouscription($_GET['id']);
-      
+
     } catch(Exception $e)
     {
       $view_error = $e->getMessage();
@@ -62,7 +62,7 @@ if(!empty($_GET['action']) && !empty($_GET['code']) && ($_GET['code'] == md5($in
       $view_success = "Vous allez recevoir un mail contenant votre nouveau mot de passe, veuillez vérifier vos spams si vous ne voyez pas de mail dans votre boîte de réception";
 
       $infoSouscription = $souscriptionObj->infoSouscription($_GET['id']);
-      
+
     } catch(Exception $e)
     {
       $view_error = $e->getMessage();
@@ -132,12 +132,12 @@ if(!empty($_GET['action']) && !empty($_GET['code']) && ($_GET['code'] == md5($in
                 </div>
                 <div class="row mt-3">
                 <div class="col-sm-8 my-auto">
-                Vous utilisez actuellement <div class="h4 mb-0 text-primary" style="display:inline"><?= $infoSouscription['DIRSIZE']; ?>MB</div>/<div class="h4 mb-0 text-primary" style="display:inline"><?= $infoSouscription['ESPACE_STOCKAGE']; ?>MB</div> de votre hébergement WEB<br /> 
+                Vous utilisez actuellement <div class="h4 mb-0 text-primary" style="display:inline"><?= $infoSouscription['DIRSIZE']; ?>MB</div>/<div class="h4 mb-0 text-primary" style="display:inline"><?= $infoSouscription['ESPACE_STOCKAGE']; ?>MB</div> de votre hébergement WEB<br />
                 </div>
 
                 </div>
                 <div class="progress mt-2">
-                <div class="progress-bar 
+                <div class="progress-bar
                 <?php if($infoSouscription['POURCENTAGE_UTILISATION_DISQUE'] < 50) : ?>
                 bg-success
                 <?php elseif($infoSouscription['POURCENTAGE_UTILISATION_DISQUE'] < 80): ?>
@@ -247,7 +247,7 @@ if(!empty($_GET['action']) && !empty($_GET['code']) && ($_GET['code'] == md5($in
     </div>
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
-    <?php require_once('includes/footer.template.php'); ?>    
+    <?php require_once('includes/footer.template.php'); ?>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
       <i class="fa fa-angle-up"></i>
@@ -265,7 +265,7 @@ if(!empty($_GET['action']) && !empty($_GET['code']) && ($_GET['code'] == md5($in
           <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
+            <a class="btn btn-primary" href="../chost-vitrine/index.html">Logout</a>
           </div>
         </div>
       </div>

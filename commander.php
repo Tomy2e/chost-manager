@@ -6,7 +6,7 @@ if(!isConnected()) {
   exit();
 }
 
-/* Steps : 
+/* Steps :
 
   1 - Selection de l'offre
   2 - Vérification eligibilité si prix = 0 puis Configuration de l'offre (domaine) + confirmation paiement
@@ -70,7 +70,7 @@ if($step == 2 && !empty($_POST))
   {
     $view_error = "Le sous-domaine choisi n'est pas disponible";
   }
-  
+
   if(empty($_POST['cgv']) || $_POST['cgv'] != 'checked')
   {
     if(!empty($view_error))
@@ -217,7 +217,7 @@ if($step == 2 && !empty($_POST))
 
       <div class="form-check mt-2">
             <label class="form-check-label">
-              <input class="form-check-input" name="cgv" value="checked" type="checkbox" required> J'accepte les CGU et les CGV de cHost (obligatoire) 
+              <input class="form-check-input" name="cgv" value="checked" type="checkbox" required> J'accepte les CGU et les CGV de cHost (obligatoire)
             </label>
           </div>
           <button type="submit" class="btn btn-primary">Payer</button>
@@ -255,7 +255,7 @@ if($step == 2 && !empty($_POST))
     <!-- /.container-fluid-->
     <?php endif; ?>
     <!-- /.content-wrapper-->
-    <?php require_once('includes/footer.template.php'); ?>    
+    <?php require_once('includes/footer.template.php'); ?>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
       <i class="fa fa-angle-up"></i>
@@ -273,7 +273,7 @@ if($step == 2 && !empty($_POST))
           <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
+            <a class="btn btn-primary" href="../chost-vitrine/index.html">Logout</a>
           </div>
         </div>
       </div>
