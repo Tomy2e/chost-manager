@@ -20,9 +20,12 @@ if(isset($_POST['email']))
   	if($_POST['email']== $fetched[$i][3] && $_POST['password']== $fetched[$i][4]){
 
   		header('Location: index.php');
+      exit();
   	}
 
   }
+
+  echo("<script>alert('Erreur de connexion, mot de passe ou identifiant incorrect');</script>");
 }
 
 
