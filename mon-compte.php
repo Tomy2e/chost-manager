@@ -1,4 +1,12 @@
-<?php define('ENVIRONMENT', 'PROD'); ?>
+<?php 
+require_once('includes/autoload.php');
+
+if(!isConnected()) {
+  header("Location: connexion.php");
+  exit();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,7 +40,50 @@
       <div class="row">
         <div class="col-12">
           <h1>Mon compte</h1>
-          <p>Page en cours de création.</p>
+          <form>
+            <div class="form-group row">
+              <label for="example-text-input" class="col-2 col-form-label">Nom</label>
+              <div class="col-10">
+                <input class="form-control" disabled type="text" value="<?php echo $clientObj->getNom(); ?>" id="example-text-input">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="example-search-input" class="col-2 col-form-label">Prenom</label>
+              <div class="col-10">
+                <input class="form-control" disabled type="search" value="<?php echo $clientObj->getPrenom(); ?>" id="example-search-input">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="example-email-input" class="col-2 col-form-label">Email</label>
+              <div class="col-10">
+                <input class="form-control" disabled type="email" value="<?php echo $clientObj->getEmail(); ?>" id="example-email-input">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="example-search-input" class="col-2 col-form-label">Adresse</label>
+              <div class="col-10">
+                <input class="form-control" type="search" value="<?php echo $clientObj->getAdresse(); ?>" id="example-search-input">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="example-search-input" class="col-2 col-form-label">Code postale</label>
+              <div class="col-10">
+                <input class="form-control" type="search" value="<?php echo $clientObj->getCode(); ?>" id="example-search-input">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="example-search-input" class="col-2 col-form-label">Ville</label>
+              <div class="col-10">
+                <input class="form-control" type="search" value="<?php echo $clientObj->getVille(); ?>" id="example-search-input">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="example-tel-input" class="col-2 col-form-label">Telephone</label>
+              <div class="col-10">
+                <input class="form-control" type="tel" value="<?php echo $clientObj->getTel(); ?>" id="example-tel-input">
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>

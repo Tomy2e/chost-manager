@@ -164,4 +164,42 @@ class Client
 
         return $this->password;
     }
+     
+     public function getAdresse()
+    {
+        if(empty($this->id_client))
+        {
+            throw new ClientException("La classe n'est pas initialisée avec un Id");
+        }
+
+        return $this->adresse;
+    }
+    public function getCode()
+    {
+        if(empty($this->id_client))
+        {
+            throw new ClientException("La classe n'est pas initialisée avec un Id");
+        }
+
+        return $this->codepostal;
+    }
+    public function getVille()
+    {
+        if(empty($this->id_client))
+        {
+            throw new ClientException("La classe n'est pas initialisée avec un Id");
+        }
+
+        return $this->ville;
+    }
+    public function getTel()
+    {
+        if(empty($this->id_client))
+        {
+            throw new ClientException("La classe n'est pas initialisée avec un Id");
+        }
+
+        return $this->telephone;
+    }
+
 }
