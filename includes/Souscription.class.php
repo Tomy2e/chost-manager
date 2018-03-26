@@ -247,7 +247,13 @@ class Souscription {
 
         // On supprime juste la conf nginx
         $nginxm = new NGINXmanager;
-        $nginxm->supprimerConf($infoSouscription['IDENTIFIANT_SOUSCRIPTION']);
+        try{
+            $nginxm->supprimerConf($infoSouscription['IDENTIFIANT_SOUSCRIPTION']);
+        } catch (NGINXmanagerException $e)
+        {
+            // On ignore s'il y a une erreur (par exemple si le fichier de conf n'existe pas)
+        }
+        
         $nginxm->rechargerServeur();
     }
 

@@ -131,7 +131,7 @@ if(!empty($_POST))
 
               </div>
             </div>
-            <div class="card-footer small text-muted">Dernier paiement le 01/01/2001 à 01h01</div>
+            <div class="card-footer small text-muted">Cette somme est non remboursable</div>
           </div>
           <!-- /Card Columns-->
         </div>

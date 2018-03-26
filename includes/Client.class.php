@@ -202,4 +202,12 @@ class Client
         return $this->telephone;
     }
 
+    public static function listerClients()
+    {
+        $prep_liste = DBmanager::getInstance()->prepare("SELECT * FROM CLIENTS");
+        $prep_liste->execute();
+
+        return $prep_liste->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
