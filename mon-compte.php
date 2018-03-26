@@ -62,27 +62,53 @@ if(!isConnected()) {
             <div class="form-group row">
               <label for="example-search-input" class="col-2 col-form-label">Adresse</label>
               <div class="col-10">
-                <input class="form-control" type="search" value="<?php echo $clientObj->getAdresse(); ?>" id="example-search-input">
+                <input class="form-control" disabled type="search" value="<?php echo $clientObj->getAdresse(); ?>" id="example-search-input">
               </div>
             </div>
             <div class="form-group row">
               <label for="example-search-input" class="col-2 col-form-label">Code postale</label>
               <div class="col-10">
-                <input class="form-control" type="search" value="<?php echo $clientObj->getCode(); ?>" id="example-search-input">
+                <input class="form-control" disabled type="search" value="<?php echo $clientObj->getCode(); ?>" id="example-search-input">
               </div>
             </div>
             <div class="form-group row">
               <label for="example-search-input" class="col-2 col-form-label">Ville</label>
               <div class="col-10">
-                <input class="form-control" type="search" value="<?php echo $clientObj->getVille(); ?>" id="example-search-input">
+                <input class="form-control" disabled type="search" value="<?php echo $clientObj->getVille(); ?>" id="example-search-input">
               </div>
             </div>
             <div class="form-group row">
               <label for="example-tel-input" class="col-2 col-form-label">Telephone</label>
               <div class="col-10">
-                <input class="form-control" type="tel" value="<?php echo $clientObj->getTel(); ?>" id="example-tel-input">
+                <input class="form-control" disabled type="tel" value="<?php echo $clientObj->getTel(); ?>" id="example-tel-input">
               </div>
             </div>
+          </form>
+          <h1>Changer mot de passe</h1>
+          <form>
+            <div class="form-group row">
+              <label for="example-text-input" class="col-2 col-form-label">Mot de passe actuel</label>
+              <div class="col-10">
+                <input class="form-control" type="password"  id="example-text-input">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="example-search-input" class="col-2 col-form-label">Nouveau mot de passe</label>
+              <div class="col-10">
+                <input class="form-control" type="password"  id="example-search-input">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="example-email-input" class="col-2 col-form-label">Confirmation du mot de passe</label>
+              <div class="col-10">
+                <input class="form-control" type="password"  id="example-email-input">
+              </div>
+            </div>
+            <div class="form-group row">
+      <div class="offset-sm-2 col-sm-10">
+        <button type="submit" class="btn btn-primary">Soumettre</button>
+      </div>
+    </div>
           </form>
         </div>
       </div>
