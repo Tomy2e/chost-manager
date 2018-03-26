@@ -30,6 +30,10 @@ if(!isset($_POST['email'])){
   $_POST['email']=NULL;
 }
 
+if(!isset($_POST['adresse'])){
+  $_POST['adresse']=NULL;
+}
+
 $dbh = DBmanager::getInstance();
 
 $prep_fetch = $dbh->prepare("SELECT * FROM CLIENTS");
