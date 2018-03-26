@@ -1,13 +1,15 @@
 <?php
+require_once('includes/autoload.php');
+
+if(isConnected())
+{
+        header("Location: index.php");
+        exit();
+}
+
 if(isset($_POST['email']))
 {
-  try {
-      $dbh = new PDO('mysql:host=localhost;dbname=CHost', "root", "", array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
-  } catch (PDOException $e) {
-      print "Erreur de connexion : " . $e->getMessage() . "<br/>";
-      die();
-  }
-  //var_dump($dbh);
+  $dbh = DBmanager::getInstance();
 
   $prep_fetch = $dbh->prepare("SELECT * FROM CLIENTS");
   $prep_fetch->execute();
@@ -18,7 +20,7 @@ if(isset($_POST['email']))
   for($i=0;$i<$nb;$i++){
 
   	if($_POST['email']== $fetched[$i][3] && $_POST['password']== $fetched[$i][4]){
-
+      connexion($fetched[$i]['ID_CLIENT']);
   		header('Location: index.php');
   	}
 
