@@ -8,6 +8,11 @@ if(isConnected())
         exit();
 }
 
+$destinataire = "test@gmail.com";
+$sujet = "bienvenue";
+
+MAILmanager::send($destinataire, $sujet, "<h1>Bonjour</h1><p>test</p>", true);
+
 //----------------------------------TO DO----------------
 //
 // fixer les regex des mots de passes ainsi que de l'adresse
@@ -33,6 +38,8 @@ $prep_fetch->execute();
 $fetched_control = $prep_fetch->fetchAll();
 //print_r ($fetched_control);
 $nb = $prep_fetch->rowCount();
+
+$analyse= htmlspecialchars($_POST['adresse']);
 
 
 
@@ -68,7 +75,7 @@ else for($i=0;$i<$nb;$i++){
         }
 
 
-	else if ($_POST['email'] != NULL && !preg_match("#/^[a-zéèàùûêâôë][a-zéèàùûêâôë\- \']*$/i#", $_POST['adresse']) && !preg_match("#^$#", $_POST['adresse']) ){
+	else if ($_POST['email'] != NULL && $_POST['adresse'] != $analyse && !preg_match("#^$#", $_POST['adresse']) ){
                 $_POST['adresse']=NULL;
                 echo ("<script>alert('Merci d\'entrer une adresse valide');</script>");
 
@@ -138,7 +145,7 @@ $dbh=NULL;
 
           	<input type="email" name="email" placeholder="Entrez votre mail" required class="form-control input-lg" value="<?= @$_POST['email'];?>" />
 
-          	<input name="password" type="password" class="form-control input-lg" id="password" placeholder="Entrez un mot de passe" required="" />
+          	<input name="password" type="password" class="form-control input-lg" id="password" maxlength="" placeholder="Entrez un mot de passe" required="" />
 	        <input name="verif-password" type="password" class="form-control input-lg" id="password" placeholder="Confirmez le mot de passe" required="" />
 
 
