@@ -84,6 +84,27 @@ if(!isConnected()) {
               </div>
             </div>
           </form>
+          <h1>Changer mot de passe</h1>
+          <form>
+            <div class="form-group row">
+              <label for="example-text-input" class="col-2 col-form-label">Mot de passe actuel</label>
+              <div class="col-10">
+                <input class="form-control" type="password"  id="example-text-input">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="example-search-input" class="col-2 col-form-label">Nouveau mot de passe</label>
+              <div class="col-10">
+                <input class="form-control" type="password"  id="example-search-input">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="example-email-input" class="col-2 col-form-label">Confirmation du mot de passe</label>
+              <div class="col-10">
+                <input class="form-control" type="password"  id="example-email-input">
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
