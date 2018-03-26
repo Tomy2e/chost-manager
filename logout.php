@@ -4,6 +4,6 @@ require_once('includes/autoload.php');
 
 deconnexion();
 
-header("Location: ../chost-vitrine.php");
+header("Location: ../chost-vitrine");
 
 ?>
