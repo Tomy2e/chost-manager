@@ -10,7 +10,7 @@ if(isConnected())
 if(isset($_POST['email']))
 {
   $dbh = DBmanager::getInstance();
-
+  $compteur = 0;
   $prep_fetch = $dbh->prepare("SELECT * FROM CLIENTS");
   $prep_fetch->execute();
 
@@ -19,15 +19,23 @@ if(isset($_POST['email']))
   //print_r( $fetched);
   for($i=0;$i<$nb;$i++){
 
-  	if($_POST['email']== $fetched[$i][3] && $_POST['password']== $fetched[$i][4]){
-      connexion($fetched[$i]['ID_CLIENT']);
-  		header('Location: index.php');
-      exit();
+  	if($_POST['email']== $fetched[$i][3] && $_POST['password']== $fetched[$i][4] ){
+      if($fetched[$i][10]==1){
+        connexion($fetched[$i]['ID_CLIENT']);
+    		header('Location: index.php');
+        exit();
+      }
+      else{
+        echo("<script>alert('Le compte est bien créé, mais n\'est pas actif, consultez votre boite mail afin d\'y remédier');</script>");
+        $compteur++;
+      }
   	}
-
   }
 
-  echo("<script>alert('Erreur de connexion, mot de passe ou identifiant incorrect');</script>");
+
+  if($compteur==0){
+    echo("<script>alert('Erreur de connexion, mot de passe ou identifiant incorrect');</script>");
+  }
 }
 
 
