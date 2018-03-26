@@ -54,7 +54,7 @@ if(isset($_POST['email']))
         <form method="post" action="" role="login">
        <!--   <img src="http://i.imgur.com/RcmcLv4.png" class="img-responsive" alt="" />
         -->
-          <img src="images/lamasticrew.jpeg" class="img-responsive" alt="" />
+          <img src="images/logo.png" class="img-responsive" alt="" />
 
 	  <input type="email" name="email" placeholder="Entrez votre mail" required class="form-control input-lg" value="<?= @$_POST['email'];?>" />
 
