@@ -72,7 +72,7 @@ if(isset($_POST['email']))
         </form>
 
         <div class="form-links">
-          <a href="../../..">Retour à l'accueil</a>
+          <a href="../chost-vitrine">Retour à l'accueil</a>
         </div>
       </section>
       </div>
