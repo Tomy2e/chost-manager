@@ -23,6 +23,12 @@ class MAILmanager {
             $headers .= "\r\nContent-Type: text/html; charset=\"utf-8\"";
         }
 
-        return mail($destinataire, $sujet, $body, $headers);
+        if(ENVIRONMENT == 'DEV')
+        {
+            // On met dans un fichier HTML l'email (au cas où un serveur mail n'est pas setup)
+            file_put_contents("emails.html", $body . "<hr>" . PHP_EOL, FILE_APPEND);
+        }
+
+        return @mail($destinataire, $sujet, $body, $headers);
     }
 }
