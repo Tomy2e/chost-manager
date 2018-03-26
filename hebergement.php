@@ -11,10 +11,30 @@ $infoSouscription = $souscriptionObj->infoSouscription($_GET['id']);
 
 //print_r($infoSouscription);
 
-if($infoSouscription['ID_CLIENT'] != $_SESSION['id_client'])
+if(empty($infoSouscription) || $infoSouscription['ID_CLIENT'] != $_SESSION['id_client'])
 {
     header("Location: index.php");
     exit();    
+}
+
+if(!empty($_POST['mdp']) && !empty($_POST['action'])
+&& $_POST['action'] == 'supprimer-souscription')
+{
+  if($_POST['mdp'] == $clientObj->getPassword())
+  {
+    try {
+      $souscriptionObj->resilierSouscription($_GET['id']);
+      header("Location: index.php");
+    } catch(Exception $e)
+    {
+      $view_error = $e->getMessage();
+    }
+  }
+  else
+  {
+    $view_error = "Impossible de résilier la souscription : le mot de passe est incorrect";
+  }
+  
 }
 
 if(!empty($_GET['action']) && !empty($_GET['code']) && ($_GET['code'] == md5($infoSouscription['EXPIRE']) || $_GET['code'] == md5($infoSouscription['PASSWORD_SOUSCRIPTION'])))
@@ -215,7 +235,7 @@ if(!empty($_GET['action']) && !empty($_GET['code']) && ($_GET['code'] == md5($in
 
             <a class="btn btn-primary btn-block" href="#" data-toggle="modal" data-target="#renewModal" role="button">Renouveler pour 1 mois</a>
             <a class="btn btn-warning btn-block" href="#" data-toggle="modal" data-target="#resetModal" role="button">Changer le mot de passe FTP et MySQL</a>
-            <a class="btn btn-danger btn-block" href="#" role="button">Résilier l'abonnement</a>
+            <a class="btn btn-danger btn-block" href="#" data-toggle="modal" data-target="#deleteModal" role="button">Résilier l'abonnement</a>
 
 
             </div>
@@ -266,6 +286,36 @@ if(!empty($_GET['action']) && !empty($_GET['code']) && ($_GET['code'] == md5($in
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
             <a class="btn btn-primary" href="hebergement.php?id=<?= $infoSouscription['IDENTIFIANT_SOUSCRIPTION']; ?>&action=reset&code=<?= md5($infoSouscription['PASSWORD_SOUSCRIPTION']); ?>">Confirmer</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL DELETE SOUSCRIPTION-->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Résilier votre abonnement ?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+          <strong>Votre abonnement et vos données seront supprimés. Votre abonnement restant ne sera pas remboursé.</strong><br /><br />
+          Veuillez saisir votre mot de passe pour confirmer la résiliation:
+            <form class="form-inline" action="hebergement.php?id=<?= $infoSouscription['IDENTIFIANT_SOUSCRIPTION']; ?>" method="post">
+              <div class="form-group">
+                <label for="inputPassword6">Mot de passe</label>
+                <input type="password" name="mdp" id="inputPassword6" class="form-control mx-sm-3" aria-describedby="passwordHelpInline">
+              </div>
+
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" name="action" value="supprimer-souscription"/>
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
+            <input type="submit" class="btn btn-danger" value="Supprimer"/>
+            </form>
           </div>
         </div>
       </div>

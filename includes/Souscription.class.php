@@ -380,4 +380,48 @@ class Souscription {
 
         return $passwordSouscription;
     }
+
+    public function resilierSouscription($identifiantSouscription)
+    {
+        $infoSouscription = $this->infoSouscription($identifiantSouscription);
+
+        if(empty($infoSouscription))
+        {
+            throw new SouscriptionException("La souscription n'existe pas");
+        }
+
+        // Supprimer de la DB
+        $prep_resilier = $this->db->prepare("DELETE FROM SOUSCRIPTION WHERE IDENTIFIANT_SOUSCRIPTION = ?");
+        $prep_resilier->execute(array($identifiantSouscription));
+
+        // FTP
+        $ftpm = new FTPmanager;
+        $ftpm->delUser($infoSouscription['IDENTIFIANT_SOUSCRIPTION']);
+
+        // MySQL
+        $mysqlm = new MYSQLmanager($this->db);
+        $mysqlm->deleteDatabase($infoSouscription['IDENTIFIANT_SOUSCRIPTION']);
+        $mysqlm->deleteUser($infoSouscription['IDENTIFIANT_SOUSCRIPTION']);
+
+        // NGINX
+        $nginxm = new NGINXmanager;
+        try {
+            $nginxm->supprimerConf($infoSouscription['IDENTIFIANT_SOUSCRIPTION']);
+            $nginxm->rechargerServeur();
+        } catch (NGINXmanagerException $e)
+        {
+            // Ne rien faire
+            // Essentiel car le fichier de config n'existe peut-être pas si l'abonnement est suspendu
+        }
+
+        // PHP
+        $phpm = new PHPmanager;
+        $phpm->supprimerConf($infoSouscription['IDENTIFIANT_SOUSCRIPTION']);
+        $phpm->rechargerServeur();
+
+        // LINUX
+        $linuxm = new LINUXmanager;
+        $linuxm->deleteUser($infoSouscription['IDENTIFIANT_SOUSCRIPTION']);
+        
+    }
 }
