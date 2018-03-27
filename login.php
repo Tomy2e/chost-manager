@@ -6,6 +6,7 @@ if(isConnected())
         header("Location: index.php");
         exit();
 }
+$alert = NULL;
 
 if(isset($_POST['email']))
 {
@@ -13,20 +14,19 @@ if(isset($_POST['email']))
   $compteur = 0;
   $prep_fetch = $dbh->prepare("SELECT * FROM CLIENTS");
   $prep_fetch->execute();
-
   $fetched = $prep_fetch->fetchAll();
   $nb = $prep_fetch->rowCount();
   //print_r( $fetched);
   for($i=0;$i<$nb;$i++){
 
-  	if($_POST['email']== $fetched[$i][3] && $_POST['password']== $fetched[$i][4] ){
+  	if($_POST['email']== $fetched[$i][3] && ($_POST['password']== $fetched[$i][4] ||  password_verify ( $_POST['password'] , $fetched[$i][4] ) )){
       if($fetched[$i][10]==1){
         connexion($fetched[$i]['ID_CLIENT']);
     		header('Location: index.php');
         exit();
       }
       else{
-        echo("<script>alert('Le compte est bien créé, mais n\'est pas actif, consultez votre boite mail afin d\'y remédier');</script>");
+        $alert ="<div class='alert alert-warning' role='alert'>Le compte est bien créé, mais n'est pas actif, consultez votre boite mail afin d'y remédier</div>";
         $compteur++;
       }
   	}
@@ -34,7 +34,7 @@ if(isset($_POST['email']))
 
 
   if($compteur==0){
-    echo("<script>alert('Erreur de connexion, mot de passe ou identifiant incorrect');</script>");
+    $alert ="<div class='alert alert-danger' role='alert'>Erreur de connexion, mot de passe ou identifiant incorrect</div>";
   }
 }
 
@@ -68,6 +68,10 @@ if(isset($_POST['email']))
        <!--   <img src="http://i.imgur.com/RcmcLv4.png" class="img-responsive" alt="" />
         -->
           <img src="images/logo.png" class="img-responsive" alt="" />
+
+
+            <?php echo ($alert); ?>
+
 
 	  <input type="email" name="email" placeholder="Entrez votre mail" required class="form-control input-lg" value="<?= @$_POST['email'];?>" />
 

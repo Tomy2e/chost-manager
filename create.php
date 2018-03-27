@@ -28,34 +28,52 @@ if(!isset($_POST['nom'])){
 
 if(!isset($_POST['email'])){
   $_POST['email']=NULL;
+  $chargement=0;
+} else{
+  $chargement=1;
 }
 
 if(!isset($_POST['adresse'])){
   $_POST['adresse']=NULL;
+}
+if(!isset($_POST['password'])){
+  $_POST['password']=NULL;
+}
+if(!isset($_POST['code-postal'])){
+  $_POST['code-postal']=NULL;
+}
+if(!isset($_POST['tel'])){
+  $_POST['tel']=NULL;
+}
+if(!isset($_POST['ville'])){
+  $_POST['ville']=NULL;
 }
 
 $dbh = DBmanager::getInstance();
 
 $prep_fetch = $dbh->prepare("SELECT * FROM CLIENTS");
 $prep_fetch->execute();
-
+$alert= NULL;
+$mdp = NULL;
+$succes= 0;
 $fetched_control = $prep_fetch->fetchAll();
 //print_r ($fetched_control);
 $nb = $prep_fetch->rowCount();
-
+$inscription = 7;
 $analyse= htmlspecialchars($_POST['adresse']);
 
 
 
 if ( !preg_match("#^([a-zA-Z'àâéèêôùûçÀÂÉÈÔÙÛÇ[:blank:]-]{1,30})$#", $_POST['prenom']) && !preg_match("#^$#", $_POST['prenom']) ){
                 $_POST['prenom']=NULL;
-                echo ("<script>alert('Merci d\'entrer un prénom composé uniquement de lettres');</script>");
-
+                $alert = "<div class='alert alert-danger' role='alert'>Merci d'entrer un prénom composé uniquement de lettres</div>";
+                $inscription--;
         }
 
 else if ( !preg_match("#^([a-zA-Z'àâéèêôùûçÀÂÉÈÔÙÛÇ[:blank:]-]{1,30})$#", $_POST['nom']) && !preg_match("#^$#", $_POST['nom']) ){
                 $_POST['nom']=NULL;
-                echo ("<script>alert('Merci d\'entrer un nom composé uniquement de lettres');</script>");
+                $alert ="<div class='alert alert-danger' role='alert'>Merci d'entrer un nom composé uniquement de lettres</div>";
+                $inscription--;
 
         }
 
@@ -66,22 +84,32 @@ else if ( !preg_match("#^([a-zA-Z'àâéèêôùûçÀÂÉÈÔÙÛÇ[:blank:]-]{
 
 else for($i=0;$i<$nb;$i++){
 
-        if($_POST['email']== $fetched_control[$i][3]){
+        if($_POST['email']== $fetched_control[$i][3] && $_POST['email']!=NULL){
 		$_POST['email']=NULL;
-		echo("<script>alert('Cette adresse est déjà utilisée, merci d'en choisir une autre');</script>");
+		$alert = "<div class='alert alert-danger' role='alert'>Cette adresse est déjà utilisée, merci d'en choisir une autre</div>";
+    $inscription--;
+
 	}
+        else if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) && $_POST['email']!=NULL){
+          $_POST['email']=NULL;
+      		$alert = "<div class='alert alert-danger' role='alert'>Merci de rentrer une adresse au format conventionnel</div>";
+          $inscription--;
+        }
+
 }
 
-	 if ($_POST['email'] != NULL && !preg_match("#^([a-zA-Z'àâéèêôùûçÀÂÉÈÔÙÛÇ[:blank:]-]{5,30})$#", $_POST['password']) && !preg_match("#^$#", $_POST['password']) && $_POST['password']!=$_POST['verif-password']) {
+	 if ($_POST['email'] != NULL && !preg_match("#^$#", $_POST['password']) && $_POST['password']!=$_POST['verif-password'] && strlen($_POST['password'])>5 && strlen($_POST['password'])<100) {
 
-                echo ("<script>alert('Le mot de passe n'est pas identique lors de la réécriture ou comporte trop peu de caractères');</script>");
+                $alert ="<div class='alert alert-danger' role='alert'>Le mot de passe n'est pas identique lors de la réécriture ou comporte trop peu de caractères, il doit avoir au moins 6 caractères</div>";
+                $inscription--;
 
         }
 
 
 	else if ($_POST['email'] != NULL && $_POST['adresse'] != $analyse && !preg_match("#^$#", $_POST['adresse']) ){
                 $_POST['adresse']=NULL;
-                echo ("<script>alert('Merci d\'entrer une adresse valide');</script>");
+                $alert ="<div class='alert alert-danger' role='alert'>Merci d'entrer une adresse valide</div>";
+                $inscription--;
 
         }
 
@@ -89,23 +117,55 @@ else for($i=0;$i<$nb;$i++){
 
 	else if ($_POST['email'] != NULL && !preg_match("#^[0-9]{5}$#", $_POST['code-postal']) && !preg_match("#^$#", $_POST['code-postal']) ){
 		$_POST['code-postal']=NULL;
-    		echo ("<script>alert('Merci d\'entrer un code postal valide');</script>");
+    		$alert ="<div class='alert alert-danger' role='alert'>Merci d'entrer un code postal valide</div>";
+        $inscription--;
 
 	}
 
         else if ($_POST['email'] != NULL && !preg_match("#^([a-zA-Z'àâéèêôùûçÀÂÉÈÔÙÛÇ[:blank:]-]{5,30})$#", $_POST['ville']) && !preg_match("#^$#", $_POST['ville']) ) {
 
-                echo ("<script>alert('Merci d\'entrer un nom de ville composé uniquement de lettres);</script>");
+                $alert ="<div class='alert alert-danger' role='alert'>Merci d'entrer un nom de ville composé uniquement de lettres</div>";
+                $inscription--;
 
         }
 
 
 	else if ($_POST['email']!=NULL && !preg_match("#^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$#", $_POST['tel']) && !preg_match("#^$#", $_POST['tel']) ){
 		$_POST['tel']=NULL;
-                echo ("<script>alert('Merci d\'entrer un numéro de téléphone valide');</script>");
+                $alert = "<div class='alert alert-danger' role='alert'>Merci d'entrer un numéro de téléphone valide</div>";
+                $inscription--;
 
        }
 
+
+     if($inscription==7 && $chargement==1){
+
+         $mdp=password_hash($_POST['password'],PASSWORD_DEFAULT);
+
+         $insertion = $dbh->prepare("INSERT INTO CLIENTS (prenom, nom, email ,password, adresse, codepostal, ville,
+            telephone, credit, compte_actif, token_aleatoire, type_compte)
+VALUES (:prenom, :nom, :email, :password, :adresse, :codepostal, :ville,
+   :telephone, :credit, :compte_actif, :token_aleatoire, :type_compte)");
+
+   $insertion->execute(array(
+       'prenom' => $_POST['prenom'],
+       'nom' => $_POST['nom'],
+       'email' => $_POST['email'],
+       'password' => $mdp,
+       'adresse' => $_POST['adresse'],
+       'codepostal' => $_POST['code-postal'],
+       'ville' => $_POST['ville'],
+       'telephone' => $_POST['tel'],
+       'credit' => 0,
+       'compte_actif' => 0,
+       'token_aleatoire' => time(),
+       'type_compte' => 0
+
+   ));
+
+   $alert = "<div class='alert alert-success' role='alert'>Le compte a bien été créé, merci de vérifier votre boite mail pour l'activation du compte</div>";
+   $succes=1;
+       }
 
 //^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$
 
@@ -142,6 +202,9 @@ $dbh=NULL;
         -->
         	  <img src="images/logo.png" class="img-responsive" alt="" />
 
+            <?php echo ($alert); ?>
+
+            <?php if ($succes==0):?>
 		<input type="text" name="prenom" required class="form-control input-lg" placeholder="Indiquez votre prenom" value="<?= @$_POST['prenom'];?>"/>
 
                 <input type="text" name="nom" required class="form-control input-lg" placeholder="Indiquez votre nom" value="<?= @$_POST['nom'];?>"/>
@@ -149,7 +212,7 @@ $dbh=NULL;
 
           	<input type="email" name="email" placeholder="Entrez votre mail" required class="form-control input-lg" value="<?= @$_POST['email'];?>" />
 
-          	<input name="password" type="password" class="form-control input-lg" id="password" maxlength="" placeholder="Entrez un mot de passe" required="" />
+          	<input name="password" type="password" class="form-control input-lg" id="password" maxlength="" placeholder="Entrez un mot de passe " required="" />
 	        <input name="verif-password" type="password" class="form-control input-lg" id="password" placeholder="Confirmez le mot de passe" required="" />
 
 
@@ -165,6 +228,8 @@ $dbh=NULL;
 
 
          	 <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">S'inscrire</button>
+
+         <?php endif?>
          	<!-- <div>
            		 <a href="create.php">Cr&eacute;er un compte</a> ou <a href="#">R&eacute;initialiser le mot de passe</a>
          	 </div>
