@@ -66,7 +66,7 @@ $test = new Ticket;
             $tab = $test->getAllTickets();
             }
             else{
-              $tab = $test->getTickets(1);
+              $tab = $test->getTickets($_SESSION["id_client"]);
             }
             
 

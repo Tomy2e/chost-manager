@@ -7,9 +7,16 @@ if(!isConnected()) {
 }
 
 $test = new Ticket;
+$type = array("Paiement","Domaine","Acces","Autre");
+
+$serv = array();
+
+foreach($souscriptionObj->listerSouscriptions() as $sub){
+  array_push($serv, $sub['IDENTIFIANT_SOUSCRIPTION']);
+}
 
 
-if(!empty($_POST)){
+if(!empty($_POST) && in_array($_POST['type'],$type) && in_array($_POST['server'],$serv) && !empty($_POST['message'])){
 
   $nouveau_ticket = $test->addTicket($_SESSION['id_client'], 1, $_POST['type'], $_POST['message'], $clientObj->getPrenom() . ' ' . $clientObj->getNom()[0] . '.');
 
@@ -56,8 +63,16 @@ if(!empty($_POST)){
       <div class="row">
         <div class="col-12">
           <h1>Nouveau ticket</h1>
+          <?php   
+          if(!empty($_POST) && (!in_array($_POST['type'],$type) || empty($_POST['message']) || !in_array($_POST['server'],$serv))){
+          echo "<div class=\"alert alert-danger\" role=\"alert\">
+            Certaines information ne sont pas valide.
+          </div>";
+          }
+           ?>
+          
             <form method="POST">
-            <select class="custom-select mb-3">
+            <select name ="server" class="custom-select mb-3">
               <option selected>Hébergement affecté</option>
               <?php foreach ($souscriptionObj->listerSouscriptions() as $souscription) : ?>
               <option value="<?= $souscription['IDENTIFIANT_SOUSCRIPTION']; ?>"><?= $souscription['SOUSDOMAINE']; ?>.<?= USER_DOMAIN; ?> (<?= $souscription['IDENTIFIANT_SOUSCRIPTION']; ?>)</option>
@@ -67,10 +82,11 @@ if(!empty($_POST)){
 
             <select name="type" class="custom-select">
               <option selected>Type de problème</option>
-              <option value="Paiement">Paiement</option>
-              <option value="Domaine">Nom de domaine</option>
-              <option value="Acces">Accès FTP</option>
-              <option value="Autre">Autre</option>
+              <?php 
+              
+              foreach($type as $value): ?>
+              <option value="<?= $value;?>"><?= $value;?></option>
+              <?php endforeach; ?>
             </select>
             <div class="form-group">
               <label for="exampleFormControlTextarea1"></label>
