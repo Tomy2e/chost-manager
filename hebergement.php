@@ -20,7 +20,7 @@ if(empty($infoSouscription) || $infoSouscription['ID_CLIENT'] != $_SESSION['id_c
 if(!empty($_POST['mdp']) && !empty($_POST['action'])
 && $_POST['action'] == 'supprimer-souscription')
 {
-  if($_POST['mdp'] == $clientObj->getPassword())
+  if(password_verify($_POST['mdp'], $clientObj->getPassword()))
   {
     try {
       $souscriptionObj->resilierSouscription($_GET['id']);
@@ -132,7 +132,7 @@ if(!empty($_GET['action']) && !empty($_GET['code']) && ($_GET['code'] == md5($in
                 </div>
                 <div class="row mt-3">
                 <div class="col-sm-8 my-auto">
-                Vous utilisez actuellement <div class="h4 mb-0 text-primary" style="display:inline"><?= $infoSouscription['DIRSIZE']; ?>MB</div>/<div class="h4 mb-0 text-primary" style="display:inline"><?= $infoSouscription['ESPACE_STOCKAGE']; ?>MB</div> de votre hébergement WEB<br />
+                Vous utilisez actuellement <div class="h4 mb-0 text-primary" style="display:inline"><?= round($infoSouscription['DIRSIZE']); ?>MB</div>/<div class="h4 mb-0 text-primary" style="display:inline"><?= $infoSouscription['ESPACE_STOCKAGE']; ?>MB</div> de votre hébergement WEB<br />
                 </div>
 
                 </div>
