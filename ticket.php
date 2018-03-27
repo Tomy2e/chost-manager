@@ -19,7 +19,7 @@ $tab =$test->getMessage($_GET['ticket']);
 //$test->getTicket(1);
 
 
-if($info[0]['ID_CLIENT'] != $_SESSION['id_client']) {
+if($info[0]['ID_CLIENT'] != $_SESSION['id_client'] && $clientObj->getInfoCompte() == 0) {
   header("Location: mes-tickets.php");
   exit();}
 
