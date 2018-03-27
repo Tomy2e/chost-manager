@@ -61,7 +61,14 @@ $test = new Ticket;
               </tr>
             </thead>
             <tbody>
-            <?php  $tab = $test->getTickets(1);
+            <?php  
+            if($clientObj->getInfoCompte() == 1){
+            $tab = $test->getAllTickets();
+            }
+            else{
+              $tab = $test->getTickets(1);
+            }
+            
 
           foreach($tab as $value){
             echo "<tr>";

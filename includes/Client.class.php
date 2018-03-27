@@ -8,7 +8,7 @@ class Client
 {
     private $id_client;
     private $db;
-    private $prenom, $nom, $email, $password, $adresse, $codepostal, $ville, $telephone, $credit;
+    private $prenom, $nom, $email, $password, $adresse, $codepostal, $ville, $telephone, $credit, $infoCompte;
 
     public function __construct()
     {
@@ -45,6 +45,7 @@ class Client
             $this->ville = $infos['VILLE'];
             $this->telephone = $infos['TELEPHONE'];
             $this->credit = $infos['CREDIT'];
+            $this->infoCompte = $infos['TYPE_COMPTE'];
 
             return true;
         }
@@ -200,6 +201,16 @@ class Client
         }
 
         return $this->telephone;
+    }
+
+    public function getInfoCompte()
+    {
+        if(empty($this->id_client))
+        {
+            throw new ClientException("La classe n'est pas initialisée avec un Id");
+        }
+
+        return $this->infoCompte;
     }
 
     public static function listerClients()

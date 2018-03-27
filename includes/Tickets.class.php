@@ -24,6 +24,16 @@ class Ticket {
         return $fetched;
         //print_r($fetched);
     }
+    public function getAllTickets()
+    {
+        $prep_fetch = $this->db->prepare("SELECT * FROM TICKETS where LOCK_TICKET = 0");
+        $prep_fetch->execute();
+
+        $fetched = $prep_fetch->fetchAll(PDO::FETCH_ASSOC);
+
+        return $fetched;
+        //print_r($fetched);
+    }
     public function getTicket($id_ticket)
     {
         $prep_fetch = $this->db->prepare("SELECT * FROM TICKETS where ID_TICKET = ?");
