@@ -63,15 +63,14 @@ if(!empty($_POST) && in_array($_POST['type'],$type) && in_array($_POST['server']
       <div class="row">
         <div class="col-12">
           <h1>Nouveau ticket</h1>
-          <?php   
-          if(!empty($_POST) && (!in_array($_POST['type'],$type) || empty($_POST['message']) || !in_array($_POST['server'],$serv))){
+            <form method="POST">
+            <?php   
+          if(!empty($_POST) && !in_array($_POST['server'],$serv)){
           echo "<div class=\"alert alert-danger\" role=\"alert\">
-            Certaines information ne sont pas valide.
+            Veiller selectionner un server.
           </div>";
           }
            ?>
-          
-            <form method="POST">
             <select name ="server" class="custom-select mb-3">
               <option selected>Hébergement affecté</option>
               <?php foreach ($souscriptionObj->listerSouscriptions() as $souscription) : ?>
@@ -79,8 +78,15 @@ if(!empty($_POST) && in_array($_POST['type'],$type) && in_array($_POST['server']
               <?php endforeach; ?>
               <option>Aucun</option>
             </select>
-
-            <select name="type" class="custom-select">
+            
+            <?php   
+          if(!empty($_POST) && !in_array($_POST['type'],$type)){
+          echo "<div class=\"alert alert-danger\" role=\"alert\">
+            Champ non validé.
+          </div>";
+          }
+           ?>
+            <select name="type" class="custom-select mb-3">
               <option selected>Type de problème</option>
               <?php 
               
@@ -88,10 +94,22 @@ if(!empty($_POST) && in_array($_POST['type'],$type) && in_array($_POST['server']
               <option value="<?= $value;?>"><?= $value;?></option>
               <?php endforeach; ?>
             </select>
+            <?php   
+          if(!empty($_POST) &&  empty($_POST['message'])){
+          echo "<div class=\"alert alert-danger\" role=\"alert\">
+            Veuiller décrire l'objet de votre ticket.
+          </div>";
+          }
+           ?>
             <div class="form-group">
               <label for="exampleFormControlTextarea1"></label>
-              <textarea class="form-control" id="exampleFormControlTextarea1" name="message" placeholder="Description du problème" rows="3"></textarea>
+              <textarea class="form-control" id="exampleFormControlTextarea1" name="message" placeholder="Description du problème" rows="3"><?php   
+          if(!empty($_POST) &&  !empty($_POST['message'])){
+          echo htmlentities($_POST['message'], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+          }
+           ?></textarea>
             </div>
+            
             <button type="submit" class="btn btn-primary">Ouvrir le ticket</button>
           </form>
         </div>
