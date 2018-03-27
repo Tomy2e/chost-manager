@@ -1,7 +1,8 @@
 <?php
 require_once('includes/autoload.php');
 
-connexion(1);
+header("Location: login.php");
+exit();
 
 ?>
 <!DOCTYPE html>
