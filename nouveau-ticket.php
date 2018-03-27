@@ -9,7 +9,7 @@ if(!isConnected()) {
 $test = new Ticket;
 $type = array("Paiement","Domaine","Acces","Autre");
 
-$serv = array();
+$serv = array("Aucun");
 
 foreach($souscriptionObj->listerSouscriptions() as $sub){
   array_push($serv, $sub['IDENTIFIANT_SOUSCRIPTION']);
