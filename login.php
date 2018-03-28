@@ -19,7 +19,7 @@ if(isset($_POST['email']))
   //print_r( $fetched);
   for($i=0;$i<$nb;$i++){
 
-  	if($_POST['email']== $fetched[$i][3] && ($_POST['password']== $fetched[$i][4] ||  password_verify ( $_POST['password'] , $fetched[$i][4] ) )){
+  	if($_POST['email']== $fetched[$i][3] &&   password_verify ( $_POST['password'] , $fetched[$i][4]) ){
       if($fetched[$i][10]==1){
         connexion($fetched[$i]['ID_CLIENT']);
     		header('Location: index.php');
