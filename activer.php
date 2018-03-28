@@ -26,7 +26,7 @@
 
   if($place != NULL){
     $mail=$fetched[$place][3];
-    $update = $dbh->prepare("UPDATE CLIENTS SET compte_actif=1 WHERE email=?");
+    $update = $dbh->prepare("UPDATE CLIENTS SET compte_actif=1, token_aleatoire=NULL WHERE email=?");
     $update->execute(array($mail));
 
     $alert = "<div class='alert alert-success' role='alert'>L'adresse mail ".$mail." a bien été vérifiée, bienvenue parmi les utilisateurs officiels de cHost! La connexion au service client est désormais disponible</div>";
