@@ -11,7 +11,6 @@ if(isConnected())
 $destinataire = "test@gmail.com";
 $sujet = "bienvenue";
 
-MAILmanager::send($destinataire, $sujet, "<h1>Bonjour</h1><p>test</p>", true);
 
 //----------------------------------TO DO----------------
 //
@@ -147,6 +146,7 @@ else for($i=0;$i<$nb;$i++){
 VALUES (:prenom, :nom, :email, :password, :adresse, :codepostal, :ville,
    :telephone, :credit, :compte_actif, :token_aleatoire, :type_compte)");
 
+          $token= time();
    $insertion->execute(array(
        'prenom' => $_POST['prenom'],
        'nom' => $_POST['nom'],
@@ -158,13 +158,16 @@ VALUES (:prenom, :nom, :email, :password, :adresse, :codepostal, :ville,
        'telephone' => $_POST['tel'],
        'credit' => 0,
        'compte_actif' => 0,
-       'token_aleatoire' => time(),
+       'token_aleatoire' => $token,
        'type_compte' => 0
 
    ));
 
    $alert = "<div class='alert alert-success' role='alert'>Le compte a bien été créé, merci de vérifier votre boite mail pour l'activation du compte</div>";
    $succes=1;
+   MAILmanager::send($_POST['email'], "Bienvenue chez cHost!", "<h1>Bonjour</h1><p>Veuillez trouver ci-joint le lien d'activation : <a href='".SITE_URL."activer.php?token=$token'>ici</a></p></br></br> Si vous n'avez pas demand&eacute; d'inscription au sein de notre structure, ignorez ce message", true);
+
+
        }
 
 //^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$
