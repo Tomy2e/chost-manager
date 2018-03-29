@@ -92,7 +92,7 @@ $info = $test->getTicket($_GET['ticket']);
                     <div class="card-body ">
                       <div class="row">
                         <div class="col-sm-8 my-auto ">
-                          <?=$msg['MESSAGE_TICKET'];?>
+                          <?= nl2br($msg['MESSAGE_TICKET']);?>
                         </div>
 
                       </div>
