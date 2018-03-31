@@ -112,7 +112,21 @@ foreach($tickets as $ticket)
                 <div class="card-body">
                 <div class="row">
                     <div class="col-sm-8 my-auto">
-                      <h1>TODO</h1>
+                      <h2>Mise à jour du 22/03/2018</h2>
+                      <p>
+                      Bonjour à tous !<br />
+                      Nous travaillons actuellement sur la possibilité d'avoir un accès SFTP, toutes les offres payantes auront accès à cette fonctionnalité sans augmentation de prix.
+                      Pour vous remercier d'être aussi nombreux, nous avons augmenté de 1 Go l'espace disque de <strong>tous</strong> vos hébergements en cours !
+                      <br />
+                      L'équipe cHost.
+                      </p>
+                      <h2>Mise à jour du 20/03/2018</h2>
+                      <p>
+                      Bonjour à tous !<br />
+                      Notre site est maintenant en ligne, nous comptons sur vous pour nous signaler tout bug rencontré lors de l'utilisation de notre site.<br />
+                      Vous pouvez nous contacter via l'onglet "Support" accessible dans le menu à gauche.<br />
+                      L'équipe cHost.
+                      </p>
                     </div>
 
                 </div>
