@@ -10,26 +10,49 @@
   $fetched = $prep_fetch->fetchAll();
   $nb = $prep_fetch->rowCount();
 
+  if(!isset($_POST['password'])){
+    $_POST['password']=NULL;
+    $_POST['verif-password']=NULL;
+    $modif=0;
+  }else{
+    $modif=1;
+  }
+
   $token= $_GET['token'];
   $alert=NULL;
+  $empty=true;
   $place=NULL;
-  $button=NULL;
+  $button= "<button type='submit' name='go' class='btn btn-lg btn-primary btn-block' >Je modifie mon mot de passe</button>";
+
+  $form = "<input name='password' type='password' class='form-control input-lg' id='password' maxlength='' placeholder='Entrez un mot de passe'  required='' />
+<input name='verif-password' type='password' class='form-control input-lg' id='password' placeholder='Confirmez le mot de passe' required='' />";
   for($i=0;$i<$nb;$i++){
     if($token== $fetched[$i][11]){
       $place=$i;
+      $empty=false;
     }
   }
 
-  if($place==NULL){
+  if($empty){
     $alert = "<div class='alert alert-danger' role='alert'>Le lien de validation n'est pas ou plus valide</div>";
+    $form = NULL;
+    $button = NULL;
+    $modif--;
   }
 
-  if($place != NULL){
-    $mail=$fetched[$place][3];
-    $update = $dbh->prepare("UPDATE CLIENTS SET compte_actif=1, token_aleatoire=NULL WHERE email=?");
-    $update->execute(array($mail));
 
-    $alert = "<div class='alert alert-success' role='alert'>L'adresse mail ".$mail." a bien été vérifiée, bienvenue parmi les utilisateurs officiels de cHost! La connexion au service client est désormais disponible</div>";
+else if (  ($_POST['password']!=$_POST['verif-password']  || strlen($_POST['password'])<=5 || strlen($_POST['password'])>=100) && $_POST['password']!=NULL) {
+
+               $alert ="<div class='alert alert-danger' role='alert'>Le mot de passe n'est pas identique lors de la réécriture ou comporte trop peu de caractères, il doit avoir au moins 6 caractères</div>";
+               $modif--;
+
+       }
+  else if(!$empty && $fetched[$place][10] == 1 && $modif==1 && $_POST['password']==$_POST['verif-password'] && (strlen($_POST['password'])>5 && strlen($_POST['password'])<100)){
+    $mail=$fetched[$place][3];
+//    $update = $dbh->prepare("UPDATE CLIENTS SET compte_actif=1, token_aleatoire=NULL WHERE email=?");
+//    $update->execute(array($mail));
+    $form=NULL;
+    $alert = "<div class='alert alert-success' role='alert'>Le mot de passe de l'adresse ".$mail." a bien été modifiée. Tentez de vous en rappeler ;) </div>";
     $button= "<button type='button' name='go' class='btn btn-lg btn-primary btn-block' onclick='location.replace('login.php');'>Connectez-vous!</button>
 ";
   }
@@ -67,8 +90,8 @@
 
            <img src="images/logo.png" class="img-responsive" alt="" />
 
-
              <?php echo ($alert); ?>
+             <?php echo ($form); ?>
              <?php echo ($button); ?>
 
 

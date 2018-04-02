@@ -83,7 +83,7 @@ if(isset($_POST['email']))
 
           <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">Se connecter</button>
           <div>
-            <a href="create.php">Cr&eacute;er un compte</a> ou <a href="#">R&eacute;initialiser le mot de passe</a>
+            <a href="create.php">Cr&eacute;er un compte</a> ou <a href="send.php">R&eacute;initialiser le mot de passe</a>
           </div>
 
         </form>
