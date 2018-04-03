@@ -75,7 +75,7 @@
 
       $alert = "<div class='alert alert-success' role='alert'>Un mail avec un lien de réinitialisation vous a été envoyé</div>";
       MAILmanager::send($_POST['email'], "Modification de votre mot de passe", "<h1>Bonjour</h1><p>Veuillez trouver ci-joint le lien permettant de modifier votre mot de passe : <a href='".SITE_URL."change.php?token=$token'>ici</a></p></br></br> Si vous n'avez pas demand&eacute; d'inscription au sein de notre structure, ignorez ce message", true);
-
+      $button=NULL;
     }
 
 
