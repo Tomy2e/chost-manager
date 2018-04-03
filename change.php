@@ -18,8 +18,12 @@
     $modif=1;
   }
 
-  $token= $_GET['token'];
   $alert=NULL;
+
+
+
+
+  $token= $_GET['token'];
   $empty=true;
   $place=NULL;
   $button= "<button type='submit' name='go' class='btn btn-lg btn-primary btn-block' >Je modifie mon mot de passe</button>";
@@ -57,9 +61,9 @@ else if (  ($_POST['password']!=$_POST['verif-password']  || strlen($_POST['pass
     $update = $dbh->prepare("UPDATE CLIENTS SET  password=? , token_aleatoire=NULL WHERE email=?");
     $update->execute(array($mdp,$mail));
 
-    $alert = "<div class='alert alert-success' role='alert'>Le mot de passe de l'adresse ".$mail." a bien été modifiée. Tentez de vous en rappeler ;) </div>";
-    $button= "<button type='button' name='go' class='btn btn-lg btn-primary btn-block' onclick='location.replace('login.php');'>Connectez-vous!</button>
-";
+    $alert = "<div class='alert alert-success' role='alert'>Le mot de passe de votre compte a bien été modifiée. Tentez de vous en rappeler ;) </div>";
+    $button=  "<a href='login.php' class='btn btn-lg btn-primary btn-block' role='button'>Connectez-vous!</a>";
+
   }
 
   $dbh=NULL;
