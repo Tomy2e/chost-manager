@@ -88,7 +88,7 @@ else for($i=0;$i<$nb;$i++){
     $inscription--;
 
 	}
-        else if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) && $_POST['email']!=NULL && !preg_match('#.[a-z]{2,4}$#', $_POST['email'])) ){
+        else if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) && $_POST['email']!=NULL && !preg_match('#.[a-z]{2,4}$#', $_POST['email'])) {
           $_POST['email']=NULL;
       		$alert = "<div class='alert alert-danger' role='alert'>Merci de rentrer une adresse mail au format conventionnel</div>";
           $inscription--;
