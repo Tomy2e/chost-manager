@@ -8,8 +8,7 @@ if(isConnected())
         exit();
 }
 
-$destinataire = "test@gmail.com";
-$sujet = "bienvenue";
+
 
 
 //----------------------------------TO DO----------------
@@ -85,13 +84,13 @@ else for($i=0;$i<$nb;$i++){
 
         if($_POST['email']== $fetched_control[$i][3] && $_POST['email']!=NULL){
 		$_POST['email']=NULL;
-		$alert = "<div class='alert alert-danger' role='alert'>Cette adresse est déjà utilisée, merci d'en choisir une autre</div>";
+		$alert = "<div class='alert alert-danger' role='alert'>Cette adresse mail est déjà utilisée, merci d'en choisir une autre</div>";
     $inscription--;
 
 	}
-        else if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) && $_POST['email']!=NULL){
+        else if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) && $_POST['email']!=NULL && !preg_match('#.[a-z]{2,4}$#', $_POST['email'])) {){
           $_POST['email']=NULL;
-      		$alert = "<div class='alert alert-danger' role='alert'>Merci de rentrer une adresse au format conventionnel</div>";
+      		$alert = "<div class='alert alert-danger' role='alert'>Merci de rentrer une adresse mail au format conventionnel</div>";
           $inscription--;
         }
 
@@ -146,6 +145,8 @@ else for($i=0;$i<$nb;$i++){
 VALUES (:prenom, :nom, :email, :password, :adresse, :codepostal, :ville,
    :telephone, :credit, :compte_actif, :token_aleatoire, :type_compte)");
 
+   $destinataire = $_POST['email'];
+   $sujet = "Bienvenue chez cHost!";
           $token= time();
    $insertion->execute(array(
        'prenom' => $_POST['prenom'],
