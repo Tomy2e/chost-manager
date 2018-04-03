@@ -52,6 +52,11 @@ else if (  ($_POST['password']!=$_POST['verif-password']  || strlen($_POST['pass
 //    $update = $dbh->prepare("UPDATE CLIENTS SET compte_actif=1, token_aleatoire=NULL WHERE email=?");
 //    $update->execute(array($mail));
     $form=NULL;
+    $mdp=password_hash($_POST['password'],PASSWORD_DEFAULT);
+
+    $update = $dbh->prepare("UPDATE CLIENTS SET  password=? , token_aleatoire=NULL WHERE email=?");
+    $update->execute(array($mdp,$mail));
+
     $alert = "<div class='alert alert-success' role='alert'>Le mot de passe de l'adresse ".$mail." a bien été modifiée. Tentez de vous en rappeler ;) </div>";
     $button= "<button type='button' name='go' class='btn btn-lg btn-primary btn-block' onclick='location.replace('login.php');'>Connectez-vous!</button>
 ";
