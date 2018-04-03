@@ -30,8 +30,8 @@
     $update->execute(array($mail));
 
     $alert = "<div class='alert alert-success' role='alert'>L'adresse mail ".$mail." a bien été vérifiée, bienvenue parmi les utilisateurs officiels de cHost! La connexion au service client est désormais disponible</div>";
-    $button= "<button type='button' name='go' class='btn btn-lg btn-primary btn-block' onclick='location.replace('login.php');'>Connectez-vous!</button>
-";
+    $button=  "<a href='login.php' class='btn btn-lg btn-primary btn-block' role='button'>Connectez-vous!</a>";
+
   }
 
   $dbh=NULL;
