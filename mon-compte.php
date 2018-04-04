@@ -6,6 +6,70 @@ if(!isConnected()) {
   exit();
 }
 
+
+if(!isset($_POST['old-password'])){
+  $_POST['old-password']=NULL;
+}
+
+if(!isset($_POST['new-password'])){
+  $_POST['new-password']=NULL;
+}
+
+if(!isset($_POST['verif-password'])){
+  $_POST['verif-password']=NULL;
+}
+$alert=NULL;
+$dbh = DBmanager::getInstance();
+$place=NULL;
+$empty=true;
+$mdp=NULL;
+
+$prep_fetch = $dbh->prepare("SELECT * FROM CLIENTS");
+$prep_fetch->execute();
+$fetched = $prep_fetch->fetchAll();
+$nb = $prep_fetch->rowCount();
+
+
+
+for($i=0;$i<$nb;$i++){
+  if($_SESSION['id_client']==$fetched[$i][0] ){
+    $place=$i;
+    $empty=false;
+
+  }
+}
+
+if(!$empty){
+
+
+
+    if(!password_verify ( $_POST['old-password'] , $fetched[$place][4]) && !preg_match("#^$#", $_POST['old-password'])) {
+
+    $alert ="<div class='alert alert-danger' role='alert'>L'ancien mot de passe est erroné.</div>";
+
+  }
+
+
+  else if (  ($_POST['new-password']!=$_POST['verif-password']  || strlen($_POST['new-password'])<=5 || strlen($_POST['new-password'])>=100) && $_POST['new-password']!=NULL) {
+
+                 $alert ="<div class='alert alert-danger' role='alert'>Le mot de passe n'est pas identique lors de la réécriture ou comporte trop peu de caractères, il doit avoir au moins 6 caractères</div>";
+
+         }
+
+  else if(password_verify ( $_POST['old-password'] , $fetched[$place][4]) && $_POST['new-password']==$_POST['verif-password'] && !preg_match("#^$#", $_POST['new-password']) && !preg_match("#^$#", $_POST['old-password'])){
+
+
+
+    $alert = "<div class='alert alert-success' role='alert'>Le mot de passe a bien été modifié</div>";
+    $mdp=password_hash($_POST['new-password'],PASSWORD_DEFAULT);
+    $update = $dbh->prepare("UPDATE CLIENTS SET  password=? , token_aleatoire=NULL WHERE id_client=?");
+    $update->execute(array($mdp,$_SESSION['id_client']));
+
+  }
+
+}
+$dbh=NULL;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -85,23 +149,24 @@ if(!isConnected()) {
             </div>
           </form>
           <h1>Changer mot de passe</h1>
-          <form>
+          <form action="" method="post">
+            <?php echo ($alert);?>
             <div class="form-group row">
-              <label for="example-text-input" class="col-2 col-form-label">Mot de passe actuel</label>
+              <label for="example-text-input" class="col-2 col-form-label" >Mot de passe actuel</label>
               <div class="col-10">
-                <input class="form-control" type="password"  id="example-text-input">
+                <input class="form-control" type="password"  id="example-text-input" name="old-password">
               </div>
             </div>
             <div class="form-group row">
-              <label for="example-search-input" class="col-2 col-form-label">Nouveau mot de passe</label>
+              <label for="example-search-input" class="col-2 col-form-label" >Nouveau mot de passe</label>
               <div class="col-10">
-                <input class="form-control" type="password"  id="example-search-input">
+                <input class="form-control" type="password"  id="example-search-input" name="new-password">
               </div>
             </div>
             <div class="form-group row">
-              <label for="example-email-input" class="col-2 col-form-label">Confirmation du mot de passe</label>
+              <label for="example-email-input" class="col-2 col-form-label" >Confirmation du mot de passe</label>
               <div class="col-10">
-                <input class="form-control" type="password"  id="example-email-input">
+                <input class="form-control" type="password"  id="example-email-input" name="verif-password">
               </div>
             </div>
             <div class="form-group row">
