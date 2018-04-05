@@ -80,7 +80,8 @@ $dbh=NULL;
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>Mon compte - Espace Client - cHost</title>
+  <title>Mon compte - Espace Client - cHost.fr</title>
+  <link rel="icon" type="image/png" href="../images/icone.png" />
   <!-- Bootstrap core CSS-->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom fonts for this template-->
