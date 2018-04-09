@@ -18,7 +18,7 @@ foreach($souscriptionObj->listerSouscriptions() as $sub){
 
 if(!empty($_POST) && in_array($_POST['type'],$type) && in_array($_POST['server'],$serv) && !empty($_POST['message'])){
 
-  $nouveau_ticket = $test->addTicket($_SESSION['id_client'], 1, $_POST['type'], $_POST['message'], $clientObj->getPrenom() . ' ' . $clientObj->getNom()[0] . '.');
+  $nouveau_ticket = $test->addTicket($clientObj, 1, $_POST['type'], $_POST['message']);
 
   header("Location: ticket.php?ticket=$nouveau_ticket&opened");
   exit();
