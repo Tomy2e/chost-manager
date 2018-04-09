@@ -367,7 +367,7 @@ class Souscription {
         <center style='width:70%;margin:0 auto; border:1px solid black;padding-top:15px;padding-bottom:15px;margin-top:20px;'>
         <a href='".SITE_URL."'><img src='https://i.imgur.com/FhZkKAh.png'/></a><br />
         <hr>
-        Bonjour ".$this->clientObj->getPrenom() . " " . $this->clientObj->getNom() . ",<br /><br />
+        <p>Bonjour ".$this->clientObj->getPrenom() . " " . $this->clientObj->getNom() . ",<br /><br />
         Vous avez demandé un nouveau mot de passe concernant le site : <a href='http://$sousdomaine.".USER_DOMAIN."'>http://$sousdomaine.".USER_DOMAIN."</a>.<br /><br />
         Vos nouveaux identifiants sont les suivants :<br />
         Nom d'utilisateur : ".$infoSouscription['IDENTIFIANT_SOUSCRIPTION']."<br />
@@ -377,7 +377,7 @@ class Souscription {
         Notre base de données MySQL : ".SITE_SQLADMIN."<br /><br />
         Nos équipes restent bien entendu à votre dispositions via l'onglet support accessible sur votre espace client.<br />
         <br />
-        Cordialement, l'équipe cHost.
+        Cordialement, l'équipe cHost.</p>
         </center>
   
         </body>
