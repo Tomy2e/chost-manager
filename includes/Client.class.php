@@ -221,4 +221,42 @@ class Client
         return $prep_liste->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function supprimerClient($confirm = false)
+    {
+        if(empty($this->id_client))
+        {
+            throw new ClientException("La classe n'est pas initialisée avec un Id");
+        }
+
+        if(!$confirm)
+        {
+            throw new ClientException("Le flag de confirmation n'est pas activé");
+        }
+
+        // Suppression des souscriptions
+        $souscriptionObj = new Souscription;
+        $souscriptionObj->setIdClient($this->id_client);
+
+        foreach($souscriptionObj->listerSouscriptions() as $souscription)
+        {
+            $souscriptionObj->resilierSouscription($souscription['IDENTIFIANT_SOUSCRIPTION']);
+        }
+
+        // Suppression des tickets
+        $ticketObj = new Ticket;
+        $ticketObj->supprimerTickets($this->id_client);
+
+        // Suppression des factures
+        $factureObj = new Facture;
+        $factureObj->supprimerFactures($this->id_client);
+
+        // Finalement on supprime le client de la base
+        $prep_supprimerClient = $this->db->prepare("DELETE FROM CLIENTS WHERE ID_CLIENT = ?");
+        
+        if($prep_supprimerClient->execute(array($this->id_client)) === false)
+        {
+            throw new ClientException("Une erreur SQL s'est produite lors de la suppression de l'utilisateur");
+        }
+    }
+
 }

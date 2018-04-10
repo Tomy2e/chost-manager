@@ -1,5 +1,9 @@
 <?php
 
+class TicketException extends Exception {
+
+}
+
 class Ticket {
 
     private $id_client;
@@ -103,6 +107,28 @@ class Ticket {
 
         return $fetched;
         //print_r($fetched);
+    }
+
+    public function supprimerTickets($id_client)
+    {
+        // Pour tous les tickets
+        foreach($this->getTickets($id_client) as $ticket)
+        {
+            // on supprime tous les messages associés au ticket
+            $prep_supprMsg = $this->db->prepare("DELETE FROM MESSAGES WHERE ID_TICKET = ?");
+            if($prep_supprMsg->execute(array($ticket['ID_TICKET'])) === false)
+            {
+                throw new TicketException("Une erreur SQL s'est produite lors de la tentative de suppression des messages associés à un ticket");
+            }
+        }
+
+        // On supprime maintenant tous les tickets
+        $prep_supprTickets = $this->db->prepare("DELETE FROM TICKETS WHERE ID_CLIENT = ?");
+
+        if($prep_supprTickets->execute(array($id_client)) === false)
+        {
+            throw new TicketException("Une erreur SQL s'est produite lors de la suppression des tickets d'un client");
+        }
     }
 
 }
