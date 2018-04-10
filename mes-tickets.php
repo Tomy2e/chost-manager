@@ -23,7 +23,7 @@ $test = new Ticket;
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>Mes tickets - Espace Client - cHost</title>
+  <title>Mes tickets - Espace Client - cHost.fr</title>
   <!-- Bootstrap core CSS-->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom fonts for this template-->
@@ -31,6 +31,7 @@ $test = new Ticket;
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">
   <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="../images/icone.png" />
 
 </head>
 
@@ -54,21 +55,21 @@ $test = new Ticket;
           <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
               <tr>
-                <th>numero ticket</th>
+                <th>Numero ticket</th>
                 <th>Type de problème</th>
                 <th>Lien</th>
                 <th>Etat du ticket</th>
               </tr>
             </thead>
             <tbody>
-            <?php  
+            <?php
             if($clientObj->getInfoCompte() == 1){
             $tab = $test->getAllTickets();
             }
             else{
               $tab = $test->getTickets($_SESSION["id_client"]);
             }
-            
+
 
           foreach($tab as $value){
             echo "<tr>";
@@ -76,7 +77,7 @@ $test = new Ticket;
               echo "<td>" . $value['TYPE_PROBLEME']."</td>";
 
 
-           echo "<td><button onclick=\"window.location.href='./ticket.php?ticket=".$value['ID_TICKET']."'\"type= \"button\" class=\"btn btn-primary btn-lg btn-block\">Lien</button></td>";
+           echo "<td><button onclick=\"window.location.href='./ticket.php?ticket=".$value['ID_TICKET']."'\"type= \"button\" class=\"btn btn-primary btn-lg btn-block\">Lire mon ticket</button></td>";
             if($value['LOCK_TICKET'] == 0)
             echo "<td><button onclick=\"window.location.href='./ticket.php?ticket=".$value['ID_TICKET']."&action=LOCK'\"type= \"button\" class=\"btn btn-primary btn-lg btn-danger btn-block\">Fermer le ticket</button></td></tr>";
             else

@@ -170,17 +170,17 @@ class Souscription {
         <center style='width:70%;margin:0 auto; border:1px solid black;padding-top:15px;padding-bottom:15px;margin-top:20px;'>
         <a href='".SITE_URL."'><img src='https://i.imgur.com/FhZkKAh.png'/></a><br />
         <hr>
-        Bonjour ".$this->clientObj->getPrenom() . " " . $this->clientObj->getNom() . ",<br /><br />
-        Nous sommes heureux de vous annoncer que votre hébergement est dès maintenant accessible à l'adresse suivante : <a href='http://$sousdomaine.".USER_DOMAIN."'>http://$sousdomaine.".USER_DOMAIN."</a>.<br /><br />
-        Veuillez conserver précieusement les identifiants suivants qui vous permettront d'administrer votre site web :<br />
+        <p>Bonjour ".$this->clientObj->getPrenom() . " " . $this->clientObj->getNom() . ",<br /><br />
+        Nous sommes heureux de vous annoncer que votre h&eacute;bergement est d&egrave;s maintenant accessible &agrave; l'adresse suivante : <a href='http://$sousdomaine.".USER_DOMAIN."'>http://$sousdomaine.".USER_DOMAIN."</a>.<br /><br />
+        Veuillez conserver pr&eacute;cieusement les identifiants suivants qui vous permettront d'administrer votre site web :<br />
         Nom d'utilisateur : ".$souscriptionDb['identifiant']."<br />
         Mot de passe : ".$souscriptionDb['password']."<br /><br />
         Ces identifiants sont notamment valides aux endroits suivants : <br />
         Notre serveur FTP : ".SITE_FTP."<br />
-        Notre base de données MySQL : ".SITE_SQLADMIN."<br /><br />
-        Nos équipes restent bien entendu à votre dispositions via l'onglet support accessible sur votre espace client.<br />
+        Notre base de donn&eacute;es MySQL : ".SITE_SQLADMIN."<br /><br />
+        Nos &eacute;quipes restent bien entendu &agrave; votre dispositions via l'onglet support accessible sur votre espace client.<br />
         <br />
-        Cordialement, l'équipe cHost.
+        Cordialement, l'&eacute;quipe cHost.</p>
         </center>
   
         </body>
@@ -367,17 +367,17 @@ class Souscription {
         <center style='width:70%;margin:0 auto; border:1px solid black;padding-top:15px;padding-bottom:15px;margin-top:20px;'>
         <a href='".SITE_URL."'><img src='https://i.imgur.com/FhZkKAh.png'/></a><br />
         <hr>
-        Bonjour ".$this->clientObj->getPrenom() . " " . $this->clientObj->getNom() . ",<br /><br />
-        Vous avez demandé un nouveau mot de passe concernant le site : <a href='http://$sousdomaine.".USER_DOMAIN."'>http://$sousdomaine.".USER_DOMAIN."</a>.<br /><br />
+        <p>Bonjour ".$this->clientObj->getPrenom() . " " . $this->clientObj->getNom() . ",<br /><br />
+        Vous avez demand&eacute; un nouveau mot de passe concernant le site : <a href='http://$sousdomaine.".USER_DOMAIN."'>http://$sousdomaine.".USER_DOMAIN."</a>.<br /><br />
         Vos nouveaux identifiants sont les suivants :<br />
         Nom d'utilisateur : ".$infoSouscription['IDENTIFIANT_SOUSCRIPTION']."<br />
         Mot de passe : $passwordSouscription<br /><br />
         Ces identifiants sont notamment valides aux endroits suivants : <br />
         Notre serveur FTP : ".SITE_FTP."<br />
         Notre base de données MySQL : ".SITE_SQLADMIN."<br /><br />
-        Nos équipes restent bien entendu à votre dispositions via l'onglet support accessible sur votre espace client.<br />
+        Nos &eacute;quipes restent bien entendu &agrave; votre dispositions via l'onglet support accessible sur votre espace client.<br />
         <br />
-        Cordialement, l'équipe cHost.
+        Cordialement, l'équipe cHost.</p>
         </center>
   
         </body>

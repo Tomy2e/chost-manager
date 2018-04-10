@@ -52,19 +52,20 @@ class Ticket {
         //print_r($fetched);
     }
 
-    public function addTicket($id_client,$server_affecte,$type,$message,$prenom)
+    public function addTicket($clientObj,$server_affecte,$type,$message)
     {
         $insertion = $this->db->prepare("INSERT INTO TICKETS (TYPE_PROBLEME,ID_CLIENT,LOCK_TICKET) 
         VALUES (:type, :client, :lock)");
         $insertion->execute(array(
             'type' => htmlspecialchars($type),
-            'client' => $id_client,
+            'client' => $clientObj->getId(),
             'lock' => 0
         ));
     
 
         $id_ticket = $this->db->lastInsertId();
-        $this->addMessage($message,$prenom,$id_ticket);
+        $this->addMessage($message,$clientObj->getPrenom(),$id_ticket);
+        $this->envoyerMail($clientObj,$id_ticket);
 
         return $id_ticket;
     }
@@ -131,5 +132,28 @@ class Ticket {
         }
     }
 
+
+public function envoyerMail($userObj,$id_ticket)
+    {
+        $body = "<html>
+        <head>
+         <title>Votre ticket a bien été crée</title>
+        </head>
+        <body>
+        <center style='width:70%;margin:0 auto; border:1px solid black;padding-top:15px;padding-bottom:15px;margin-top:20px;'>
+        <a href='".SITE_URL."'><img src='https://i.imgur.com/FhZkKAh.png'/></a><br />
+        <hr>
+        Bonjour ".$userObj->getPrenom(). " " . $userObj->getNom() . ",<br /><br />
+        Vous avez crée un ticket et notre équipe vous répondra sous peu.<br />
+        Votre ticket a bien étais crée et est disponible ici : <a href='".SITE_URL."ticket.php?ticket=".$id_ticket."'>".SITE_URL."ticket.php?ticket=".$id_ticket."</a>. <br />
+        <br />
+        Cordialement, l'équipe cHost.
+        </center>
+  
+        </body>
+       </html>";
+       
+       return MAILmanager::send($userObj->getEmail(), "Votre facture cHost", $body, true);
+    }
 }
 

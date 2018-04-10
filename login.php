@@ -53,6 +53,9 @@ if(isset($_POST['email']))
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
   <script src="js/login.js"></script>
   <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+  <title>Connexion - cHost.fr</title>
+  <link rel="icon" type="image/png" href="../images/icone.png" />
  </head>
 
  <body>

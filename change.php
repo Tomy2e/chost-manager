@@ -26,22 +26,31 @@
   $token= $_GET['token'];
   $empty=true;
   $place=NULL;
+  $id=NULL;
+
   $button= "<button type='submit' name='go' class='btn btn-lg btn-primary btn-block' >Je modifie mon mot de passe</button>";
 
   $form = "<input name='password' type='password' class='form-control input-lg' id='password' maxlength='' placeholder='Entrez un mot de passe'  required='' />
 <input name='verif-password' type='password' class='form-control input-lg' id='password' placeholder='Confirmez le mot de passe' required='' />";
   for($i=0;$i<$nb;$i++){
-    if($token== $fetched[$i][11]){
+    if($token== $fetched[$i][11] ){
       $place=$i;
       $empty=false;
+      $id=$fetched[$i][0];
     }
+
   }
 
-  if($empty){
+  if($empty || time()-172800 >$token){
     $alert = "<div class='alert alert-danger' role='alert'>Le lien de validation n'est pas ou plus valide</div>";
     $form = NULL;
     $button = NULL;
     $modif--;
+    if(time()-172800 >$token && !$empty){
+      $update = $dbh->prepare("UPDATE CLIENTS SET  token_aleatoire=NULL WHERE email=?");
+      $update->execute(array($id));
+    }
+
   }
 
 
@@ -82,6 +91,8 @@ else if (  ($_POST['password']!=$_POST['verif-password']  || strlen($_POST['pass
    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
    <script src="js/login.js"></script>
    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+   <title>Réinitialisation du mot de passe - cHost.fr</title>
+   <link rel="icon" type="image/png" href="../images/icone.png" />
   </head>
 
   <body>

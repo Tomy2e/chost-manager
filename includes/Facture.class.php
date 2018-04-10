@@ -194,10 +194,10 @@ class Facture
         <a href='".SITE_URL."'><img src='https://i.imgur.com/FhZkKAh.png'/></a><br />
         <hr>
         Bonjour ".$userObj->getPrenom() . " " . $userObj->getNom() . ",<br /><br />
-        Vous avez passé commande chez nous et nous vous en remercions.<br />
-        Votre facture N°".$factureGeneree['id_facture']." de ".$factureGeneree['total']."€ est disponible ici : <a href='".SITE_URL."facture-detaillee.php?id=".$factureGeneree['id_facture']."'>".SITE_URL."facture-detaillee.php?id=".$factureGeneree['id_facture']."</a>. <br />
+        Vous avez pass&eacute; commande chez nous et nous vous en remercions.<br />
+        Votre facture N&deg;".$factureGeneree['id_facture']." de ".$factureGeneree['total']."&euro; est disponible ici : <a href='".SITE_URL."facture-detaillee.php?id=".$factureGeneree['id_facture']."'>".SITE_URL."facture-detaillee.php?id=".$factureGeneree['id_facture']."</a>. <br />
         <br />
-        Cordialement, l'équipe cHost.
+        Cordialement, l'&eacute;quipe cHost.
         </center>
   
         </body>

@@ -1,4 +1,7 @@
 <?php
+
+chdir(__DIR__);
+
 require_once('includes/autoload.php');
 
 if(!is_cli())
