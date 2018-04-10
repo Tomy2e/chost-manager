@@ -82,7 +82,7 @@ if(isConnected())
     if(!$clientObj->fetchInfos())
     {
         deconnexion();
-        header("Location: connexion.php");
+        header("Location: login.php");
         exit();
     }
 

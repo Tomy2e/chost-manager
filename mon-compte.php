@@ -2,7 +2,7 @@
 require_once('includes/autoload.php');
 
 if(!isConnected()) {
-  header("Location: connexion.php");
+  header("Location: login.php");
   exit();
 }
 
