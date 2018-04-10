@@ -20,11 +20,11 @@
     }
   }
 
-  if($place==NULL){
+  if($place===NULL){
     $alert = "<div class='alert alert-danger' role='alert'>Le lien de validation n'est pas ou plus valide</div>";
   }
 
-  if($place != NULL){
+  if($place !== NULL){
     $mail=$fetched[$place][3];
     $update = $dbh->prepare("UPDATE CLIENTS SET compte_actif=1, token_aleatoire=NULL WHERE email=?");
     $update->execute(array($mail));
