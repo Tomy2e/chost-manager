@@ -53,6 +53,7 @@
 
    <title>Activation du compte - cHost.fr</title>
    <link rel="icon" type="image/png" href="../images/icone.png" />
+   <meta charset="utf-8">
 
   </head>
 

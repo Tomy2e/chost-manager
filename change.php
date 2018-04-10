@@ -93,6 +93,7 @@ else if (  ($_POST['password']!=$_POST['verif-password']  || strlen($_POST['pass
    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
    <title>Réinitialisation du mot de passe - cHost.fr</title>
    <link rel="icon" type="image/png" href="../images/icone.png" />
+   <meta charset="utf-8">
   </head>
 
   <body>
