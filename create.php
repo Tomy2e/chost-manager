@@ -192,6 +192,7 @@ $dbh=NULL;
   <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
   <title>Inscription - cHost.fr</title>
   <link rel="icon" type="image/png" href="../images/icone.png" />
+  <meta charset="utf-8">
  </head>
 
  <body>
@@ -245,7 +246,7 @@ $dbh=NULL;
 
 
   <div class="form-links">
-          <a href="../chost-vitrine">Retour à l'accueil</a>
+          <a href="../">Retour à l'accueil</a>
         </div>
       </section>
       </div>

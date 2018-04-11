@@ -164,6 +164,25 @@ class Facture
         return $facture;
     }
 
+    public function supprimerFactures($id_client)
+    {
+        foreach($this->listerFactures($id_client) as $facture)
+        {
+            $prep_supprimerAchats = $this->db->prepare("DELETE FROM ACHATS WHERE ID_FACTURE = ?");
+
+            if($prep_supprimerAchats->execute(array($facture['ID_FACTURE'])) === false)
+            {
+                throw new FactureException("Une erreur SQL s'est produite lors de la suppression d'une entrée dans la table achats");
+            }
+        }
+
+        $prep_supprimerFactures = $this->db->prepare("DELETE FROM FACTURES WHERE ID_CLIENT = ?");
+        if($prep_supprimerFactures->execute(array($id_client)) === false)
+        {
+            throw new FactureException("Une erreur SQL s'est produite lors de la suppression des factures");
+        }
+    }
+
     public function envoyerMail($userObj, $factureGeneree)
     {
         $body = "<html>

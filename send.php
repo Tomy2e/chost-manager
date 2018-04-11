@@ -95,7 +95,7 @@
 
   <title>Réinitialisation du mot de passe - cHost.fr</title>
   <link rel="icon" type="image/png" href="../images/icone.png" />
-
+  <meta charset="utf-8">
  </head>
 
  <body>

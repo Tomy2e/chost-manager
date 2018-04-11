@@ -41,6 +41,7 @@
     }
   }
 
+<<<<<<< HEAD
   else if ($fetched[$place][10]==1){
 
     $alert = "<div class='alert alert-danger' role='alert'>Votre mail a déja été validé!</div>";
@@ -48,6 +49,13 @@
   }
 
   else if(!$empty && $fetched[$place][10]==0){
+=======
+  if($place===NULL){
+    $alert = "<div class='alert alert-danger' role='alert'>Le lien de validation n'est pas ou plus valide</div>";
+  }
+
+  if($place !== NULL){
+>>>>>>> 9bd99b0eec84e3a99a79dc1f162df35a08abf2c7
     $mail=$fetched[$place][3];
     $update = $dbh->prepare("UPDATE CLIENTS SET compte_actif=1, token_aleatoire=NULL WHERE email=?");
     $update->execute(array($mail));
@@ -76,6 +84,7 @@
 
    <title>Activation du compte - cHost.fr</title>
    <link rel="icon" type="image/png" href="../images/icone.png" />
+   <meta charset="utf-8">
 
   </head>
 
