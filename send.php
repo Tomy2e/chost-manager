@@ -72,9 +72,27 @@
       $update = $dbh->prepare("UPDATE CLIENTS SET  token_aleatoire=? WHERE email=?");
       $update->execute(array($token,$mail));
 
+      $body = "<html>
+      <head>
+       <title>Votre facture cHost</title>
+      </head>
+      <body>
+      <center style='width:70%;margin:0 auto; border:1px solid black;padding-top:15px;padding-bottom:15px;margin-top:20px;'>
+      <a href='".SITE_URL."'><img src='https://i.imgur.com/FhZkKAh.png'/></a><br />
+      <hr>
+      Bonjour ,<br /><br />
+      Vous avez souhait&eacute; commander chez nous et nous vous en avons entenu.<br />
+
+      Veuillez trouver ci-joint le lien permettant de modifier votre mot de passe : <a href='".SITE_URL."change.php?token=$token'>ici</a></p></br></br> Si vous n'avez pas demand&eacute; d'inscription au sein de notre structure, ignorez ce message
+      <br />
+      Cordialement, l'&eacute;quipe cHost.
+      </center>
+
+      </body>
+     </html>";
 
       $alert = "<div class='alert alert-success' role='alert'>Un mail avec un lien de réinitialisation vous a été envoyé</div>";
-      MAILmanager::send($_POST['email'], "Modification de votre mot de passe", "<h1>Bonjour</h1><p>Veuillez trouver ci-joint le lien permettant de modifier votre mot de passe : <a href='".SITE_URL."change.php?token=$token'>ici</a></p></br></br> Si vous n'avez pas demand&eacute; d'inscription au sein de notre structure, ignorez ce message", true);
+      MAILmanager::send($_POST['email'], $sujet, $body, true);
       $button=NULL;
       $form =NULL;
     }
