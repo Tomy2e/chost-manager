@@ -14,17 +14,40 @@
   $alert=NULL;
   $place=NULL;
   $button=NULL;
+  $empty=true;
+  $id=NULL;
+
+  $temp_id=NULL;
+
+
   for($i=0;$i<$nb;$i++){
+    $temp_id=$fetched[$i][0];
+
     if($token== $fetched[$i][11]){
       $place=$i;
+      $id=$fetched[$i][0];
+      $empty=false;
+    }
+
+
+  }
+
+  if($empty || time()-604800 >$token){
+    $alert = "<div class='alert alert-danger' role='alert'>Le lien de validation n'est pas ou plus valide. Si votre compte a été créé il y a plus d'une semaine sans être validé, il a été supprimé.</div>";
+
+    if(time()-604800 >$token && !$empty){
+      $update = $dbh->prepare("DELETE FROM CLIENTS  WHERE id_client=?");
+      $update->execute(array($id));
     }
   }
 
-  if($place==NULL){
-    $alert = "<div class='alert alert-danger' role='alert'>Le lien de validation n'est pas ou plus valide</div>";
+  else if ($fetched[$place][10]==1){
+
+    $alert = "<div class='alert alert-danger' role='alert'>Votre mail a déja été validé!</div>";
+
   }
 
-  if($place != NULL){
+  else if(!$empty && $fetched[$place][10]==0){
     $mail=$fetched[$place][3];
     $update = $dbh->prepare("UPDATE CLIENTS SET compte_actif=1, token_aleatoire=NULL WHERE email=?");
     $update->execute(array($mail));
