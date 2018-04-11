@@ -121,6 +121,7 @@ else for($i=0;$i<$nb;$i++){
 	}
 
         else if ($_POST['email'] != NULL && !preg_match("#^([a-zA-Z'àâéèêôùûçÀÂÉÈÔÙÛÇ[:blank:]-]{5,30})$#", $_POST['ville']) && !preg_match("#^$#", $_POST['ville']) ) {
+          $_POST['ville']=NULL;
 
                 $alert ="<div class='alert alert-danger' role='alert'>Merci d'entrer un nom de ville composé uniquement de lettres</div>";
                 $inscription--;
