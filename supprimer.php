@@ -8,6 +8,27 @@ if(!isConnected()) {
 
 //$test->getTicket(1);
 
+if(!isset($_POST['password'])){
+  $_POST['password']=NULL;
+  $chargement=0;
+} else{
+  $chargement=1;
+}
+
+if(!isset($_POST['check'])){
+  $_POST['check']=NULL;
+}
+
+
+  if($chargement==1 && password_verify($_POST['password'], $clientObj->getPassword()) && $_POST['check']==1){
+
+    $clientObj->supprimerClient(true);
+    deconnexion();
+
+    header("Location: ../");
+    exit();
+  }
+
 
 
 ?>
@@ -20,7 +41,7 @@ if(!isConnected()) {
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>Mes tickets - Espace Client - cHost.fr</title>
+  <title>Suppression de compte - Espace Client - cHost.fr</title>
   <!-- Bootstrap core CSS-->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom fonts for this template-->
@@ -42,14 +63,27 @@ if(!isConnected()) {
         <li class="breadcrumb-item">
           <a href="index.php">Accueil</a>
           <li class="breadcrumb-item active">Supprimer mon compte</li>
-        </ol>
+      </ol>
 
-            </tbody>
-          </table>
+      <form action="" method="post">
+
+        </br>
+        <input name="password" type="password" class="form-control input-lg" id="password" maxlength="" placeholder="Entrez votre mot de passe " required="" />
+        </br>
+        </br>
+        </br>
+        <div class="radio">
+          <label><input type="checkbox" name="check" value="1">Je consens à supprimer mon compte</label>
+        </div>
+        </br>
+        </br>
+        </br>
+        <button type="submit" name="go" class="btn btn-lg btn-danger btn-block">Supprimer</button>
+
+      </form>
           </div>
       </div>
-      </div>
-    </div>
+
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
     <?php require_once('includes/footer.template.php'); ?>
