@@ -149,7 +149,7 @@ $dbh=NULL;
               </div>
             </div>
           </form>
-          <h1>Changer mot de passe</h1>
+          <h1 id="chgmdp">Changer mot de passe</h1>
           <form action="" method="post">
             <?php echo ($alert);?>
             <div class="form-group row">
@@ -179,6 +179,13 @@ $dbh=NULL;
         </div>
       </div>
     </div>
+
+    <div>
+
+      <a href='supprimer.php' class='btn  btn-danger mr-3 pull-right' role='button'>Supprimer mon compte</a>
+    </div>
+    </br>
+    </br>
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
     <?php require_once('includes/footer.template.php'); ?>
