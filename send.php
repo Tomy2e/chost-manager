@@ -81,7 +81,7 @@
       <a href='".SITE_URL."'><img src='https://i.imgur.com/FhZkKAh.png'/></a><br />
       <hr>
       Bonjour ,<br /><br />
-      Vous avez souhait&eacute; commander chez nous et nous vous en avons entenu.<br />
+      Vous avez souhait&eacute; modifier votre mot de passe.<br />
 
       Veuillez trouver ci-joint le lien permettant de modifier votre mot de passe : <a href='".SITE_URL."change.php?token=$token'>ici</a></p></br></br> Si vous n'avez pas demand&eacute; d'inscription au sein de notre structure, ignorez ce message
       <br />

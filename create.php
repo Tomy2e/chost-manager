@@ -174,7 +174,7 @@ VALUES (:prenom, :nom, :email, :password, :adresse, :codepostal, :ville,
    <a href='".SITE_URL."'><img src='https://i.imgur.com/FhZkKAh.png'/></a><br />
    <hr>
    Bonjour ,<br /><br />
-   Vous avez souhait&eacute; commander chez nous et nous vous en avons entenu.<br />
+   Vous avez souhait&eacute; vous inscrire chez nous.<br />
 
    Veuillez trouver ci-joint le lien d'activation : <a href='".SITE_URL."activer.php?token=$token'>ici</a></p></br></br> Si vous n'avez pas demand&eacute; d'inscription au sein de notre structure, ignorez ce message
    <br />
