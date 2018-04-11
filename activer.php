@@ -29,16 +29,19 @@
       $empty=false;
     }
 
-
+    if(time()-604800 >$fetched[$i][11]  && $fetched[$i][11]!=NULL && $fetched[$i][10]==0){
+      $update = $dbh->prepare("DELETE FROM CLIENTS  WHERE id_client=?");
+      $update->execute(array($temp_id));
+      if($token== $fetched[$i][11]){
+        $empty=true;
+      }
+    }
   }
 
-  if($empty || time()-604800 >$token){
+  if(($empty || time()-604800 >$token) && $fetched[$place][10]==0){
     $alert = "<div class='alert alert-danger' role='alert'>Le lien de validation n'est pas ou plus valide. Si votre compte a été créé il y a plus d'une semaine sans être validé, il a été supprimé.</div>";
 
-    if(time()-604800 >$token && !$empty){
-      $update = $dbh->prepare("DELETE FROM CLIENTS  WHERE id_client=?");
-      $update->execute(array($id));
-    }
+
   }
 
   else if ($fetched[$place][10]==1){
