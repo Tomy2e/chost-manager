@@ -27,32 +27,46 @@
   $empty=true;
   $place=NULL;
   $id=NULL;
-
+  $temp_id=NULL;
   $button= "<button type='submit' name='go' class='btn btn-lg btn-primary btn-block' >Je modifie mon mot de passe</button>";
 
   $form = "<input name='password' type='password' class='form-control input-lg' id='password' maxlength='' placeholder='Entrez un mot de passe'  required='' />
 <input name='verif-password' type='password' class='form-control input-lg' id='password' placeholder='Confirmez le mot de passe' required='' />";
   for($i=0;$i<$nb;$i++){
+    $temp_id=$fetched[$i][0];
     if($token== $fetched[$i][11] ){
       $place=$i;
       $empty=false;
       $id=$fetched[$i][0];
     }
 
+
+    if(time()-172800 >$fetched[$i][11] && $fetched[$i][11]!=NULL && $fetched[$i][10]==1){
+      $update = $dbh->prepare("UPDATE CLIENTS SET  token_aleatoire=NULL WHERE id_client=?");
+      $update->execute(array($temp_id));
+      if($token== $fetched[$i][11]){
+        $empty=true;
+      }
+    }
   }
 
-  if($empty || time()-172800 >$token){
+  if($empty || time()-172800 >$token && $fetched[$place][10]==1){
     $alert = "<div class='alert alert-danger' role='alert'>Le lien de validation n'est pas ou plus valide</div>";
     $form = NULL;
     $button = NULL;
     $modif--;
-    if(time()-172800 >$token && !$empty){
-      $update = $dbh->prepare("UPDATE CLIENTS SET  token_aleatoire=NULL WHERE id_client=?");
-      $update->execute(array($id));
-    }
+
 
   }
 
+
+  else if ($fetched[$place][10]==0){
+    $alert = "<div class='alert alert-danger' role='alert'>Vous n'avez pas validé votre mail!</div>";
+    $form = NULL;
+    $button = NULL;
+    $modif--;
+
+  }
 
 else if (  ($_POST['password']!=$_POST['verif-password']  || strlen($_POST['password'])<=5 || strlen($_POST['password'])>=100) && $_POST['password']!=NULL) {
 
