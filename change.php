@@ -47,7 +47,7 @@
     $button = NULL;
     $modif--;
     if(time()-172800 >$token && !$empty){
-      $update = $dbh->prepare("UPDATE CLIENTS SET  token_aleatoire=NULL WHERE email=?");
+      $update = $dbh->prepare("UPDATE CLIENTS SET  token_aleatoire=NULL WHERE id_client=?");
       $update->execute(array($id));
     }
 
