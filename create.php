@@ -52,6 +52,15 @@ $dbh = DBmanager::getInstance();
 $prep_fetch = $dbh->prepare("SELECT * FROM CLIENTS");
 $prep_fetch->execute();
 $alert= NULL;
+$alert_prenom=NULL;
+$alert_nom=NULL;
+$alert_mail=NULL;
+$alert_tel=NULL;
+$alert_ville=NULL;
+$alert_post=NULL;
+$alert_mdp=NULL;
+$alert_adresse=NULL;
+
 $mdp = NULL;
 $succes= 0;
 $fetched_control = $prep_fetch->fetchAll();
@@ -64,13 +73,13 @@ $analyse= htmlspecialchars($_POST['adresse']);
 
 if ( !preg_match("#^([a-zA-Z'àâéèêôùûçÀÂÉÈÔÙÛÇ[:blank:]-]{1,30})$#", $_POST['prenom']) && !preg_match("#^$#", $_POST['prenom']) ){
                 $_POST['prenom']=NULL;
-                $alert = "<div class='alert alert-danger' role='alert'>Merci d'entrer un prénom composé uniquement de lettres</div>";
+                $alert_prenom = "&bull; Le prénom doit être composé uniquement de lettres </br>";
                 $inscription--;
         }
 
-else if ( !preg_match("#^([a-zA-Z'àâéèêôùûçÀÂÉÈÔÙÛÇ[:blank:]-]{1,30})$#", $_POST['nom']) && !preg_match("#^$#", $_POST['nom']) ){
+ if ( !preg_match("#^([a-zA-Z'àâéèêôùûçÀÂÉÈÔÙÛÇ[:blank:]-]{1,30})$#", $_POST['nom']) && !preg_match("#^$#", $_POST['nom']) ){
                 $_POST['nom']=NULL;
-                $alert ="<div class='alert alert-danger' role='alert'>Merci d'entrer un nom composé uniquement de lettres</div>";
+                $alert_nom ="&bull; Le nom doit être composé uniquement de lettres </br>";
                 $inscription--;
 
         }
@@ -80,58 +89,58 @@ else if ( !preg_match("#^([a-zA-Z'àâéèêôùûçÀÂÉÈÔÙÛÇ[:blank:]-]{
 
 
 
-else for($i=0;$i<$nb;$i++){
+ for($i=0;$i<$nb;$i++){
 
         if($_POST['email']== $fetched_control[$i][3] && $_POST['email']!=NULL){
 		$_POST['email']=NULL;
-		$alert = "<div class='alert alert-danger' role='alert'>Cette adresse mail est déjà utilisée, merci d'en choisir une autre</div>";
+		$alert_mail = "&bull; Cette adresse mail est déjà utilisée, merci d'en choisir une autre </br>";
     $inscription--;
 
 	}
         else if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) && $_POST['email']!=NULL && !preg_match('#.[a-z]{2,4}$#', $_POST['email'])) {
           $_POST['email']=NULL;
-      		$alert = "<div class='alert alert-danger' role='alert'>Merci de rentrer une adresse mail au format conventionnel</div>";
+      		$alert_mail = "&bull; L'adresse mail doit être entrée au format conventionnel </br>";
           $inscription--;
         }
 
 }
 
-	 if ($_POST['email'] != NULL && !preg_match("#^$#", $_POST['password']) && $_POST['password']!=$_POST['verif-password'] && strlen($_POST['password'])>5 && strlen($_POST['password'])<100) {
+	 if ( !preg_match("#^$#", $_POST['password']) && $_POST['password']!=$_POST['verif-password'] && strlen($_POST['password'])>5 && strlen($_POST['password'])<100) {
 
-                $alert ="<div class='alert alert-danger' role='alert'>Le mot de passe n'est pas identique lors de la réécriture ou comporte trop peu de caractères, il doit avoir au moins 6 caractères</div>";
+                $alert_mdp ="&bull; Le mot de passe n'est pas identique lors de la réécriture ou comporte trop peu de caractères, il doit avoir au moins 6 caractères </br>";
                 $inscription--;
 
         }
 
 
-	else if ($_POST['email'] != NULL && $_POST['adresse'] != $analyse && !preg_match("#^$#", $_POST['adresse']) ){
+	 if ( $_POST['adresse'] != $analyse && !preg_match("#^$#", $_POST['adresse']) ){
                 $_POST['adresse']=NULL;
-                $alert ="<div class='alert alert-danger' role='alert'>Merci d'entrer une adresse valide</div>";
+                $alert_adresse ="&bull; Une adresse valide est requise </br>";
                 $inscription--;
 
         }
 
 
 
-	else if ($_POST['email'] != NULL && !preg_match("#^[0-9]{5}$#", $_POST['code-postal']) && !preg_match("#^$#", $_POST['code-postal']) ){
+	 if ( !preg_match("#^[0-9]{5}$#", $_POST['code-postal']) && !preg_match("#^$#", $_POST['code-postal']) ){
 		$_POST['code-postal']=NULL;
-    		$alert ="<div class='alert alert-danger' role='alert'>Merci d'entrer un code postal valide</div>";
+    		$alert_post ="&bull; Un code postal valide est requis </br>";
         $inscription--;
 
 	}
 
-        else if ($_POST['email'] != NULL && !preg_match("#^([a-zA-Z'àâéèêôùûçÀÂÉÈÔÙÛÇ[:blank:]-]{5,30})$#", $_POST['ville']) && !preg_match("#^$#", $_POST['ville']) ) {
+         if ( !preg_match("#^([a-zA-Z'àâéèêôùûçÀÂÉÈÔÙÛÇ[:blank:]-]{5,30})$#", $_POST['ville']) && !preg_match("#^$#", $_POST['ville']) ) {
           $_POST['ville']=NULL;
 
-                $alert ="<div class='alert alert-danger' role='alert'>Merci d'entrer un nom de ville composé uniquement de lettres</div>";
+                $alert_ville ="&bull; Le nom de ville doit composé uniquement de lettres </br>";
                 $inscription--;
 
         }
 
 
-	else if ($_POST['email']!=NULL && !preg_match("#^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$#", $_POST['tel']) && !preg_match("#^$#", $_POST['tel']) ){
+	 if ( !preg_match("#^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$#", $_POST['tel']) && !preg_match("#^$#", $_POST['tel']) ){
 		$_POST['tel']=NULL;
-                $alert = "<div class='alert alert-danger' role='alert'>Merci d'entrer un numéro de téléphone valide</div>";
+                $alert_tel = "&bull; Merci d'entrer un numéro de téléphone valide </br>";
                 $inscription--;
 
        }
@@ -229,7 +238,15 @@ $dbh=NULL;
         -->
         	  <img src="images/logo.png" class="img-responsive" alt="" />
 
-            <?php echo ($alert); ?>
+            <?php
+            if($chargement=1 && ($alert_tel!=NULL || $alert_mdp!=NULL || $alert_nom!=NULL || $alert_mail!=NULL || $alert)){
+              $alert= "<div class='alert alert-danger' role='alert'>L'inscription n'a pu aboutir, un ou plusieurs champs ont été remplis de manière
+              incorrecte. Veuillez prendre compte des remarques suivantes: </br>". $alert_prenom.$alert_nom.$alert_mail.$alert_mdp.$alert_adresse.$alert_post.$alert_ville.$alert_tel."</div>";
+              echo $alert;
+
+            }
+
+              ?>
 
             <?php if ($succes==0):?>
 		<input type="text" name="prenom" required class="form-control input-lg" placeholder="Indiquez votre prenom" value="<?= @$_POST['prenom'];?>"/>
