@@ -60,6 +60,7 @@ $alert_ville=NULL;
 $alert_post=NULL;
 $alert_mdp=NULL;
 $alert_adresse=NULL;
+$alert_success=NULL;
 
 $mdp = NULL;
 $succes= 0;
@@ -140,7 +141,7 @@ if ( !preg_match("#^([a-zA-Z'àâéèêôùûçÀÂÉÈÔÙÛÇ[:blank:]-]{1,30}
 
 	 if ( !preg_match("#^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$#", $_POST['tel']) && !preg_match("#^$#", $_POST['tel']) ){
 		$_POST['tel']=NULL;
-                $alert_tel = "&bull; Merci d'entrer un numéro de téléphone valide </br>";
+                $alert_tel = "&bull; Le numéro de téléphone fourni n'est pas valide </br>";
                 $inscription--;
 
        }
@@ -193,7 +194,7 @@ VALUES (:prenom, :nom, :email, :password, :adresse, :codepostal, :ville,
    </body>
   </html>";
 
-   $alert = "<div class='alert alert-success' role='alert'>Le compte a bien été créé, merci de vérifier votre boite mail pour l'activation du compte</div>";
+   $alert_success = "<div class='alert alert-success' role='alert'>Le compte a bien été créé, merci de vérifier votre boite mail pour l'activation du compte</div>";
    $succes=1;
    MAILmanager::send($_POST['email'], $sujet, $body, true);
 
@@ -242,9 +243,13 @@ $dbh=NULL;
             if($chargement=1 && ($alert_tel!=NULL || $alert_mdp!=NULL || $alert_nom!=NULL || $alert_mail!=NULL || $alert)){
               $alert= "<div class='alert alert-danger' role='alert'>L'inscription n'a pu aboutir, un ou plusieurs champs ont été remplis de manière
               incorrecte. Veuillez prendre compte des remarques suivantes: </br>". $alert_prenom.$alert_nom.$alert_mail.$alert_mdp.$alert_adresse.$alert_post.$alert_ville.$alert_tel."</div>";
-              echo $alert;
 
             }
+
+            if($inscription==7){
+              $alert=$alert_success;
+            }
+            echo $alert;
 
               ?>
 
