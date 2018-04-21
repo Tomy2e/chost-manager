@@ -42,6 +42,10 @@ pm.max_spare_servers = 3
 ;php_admin_value[open_basedir]   = /
 ;php_admin_value[sys_temp_dir]   = /tmp/
 ;php_admin_value[upload_tmp_dir] = /tmp/
+
+php_admin_value[open_basedir] = ".USER_PATH."$identifiant/www
+php_admin_value[disable_functions] = dl,exec,passthru,shell_exec,system,proc_open,popen,curl_exec,curl_multi_exec,parse_ini_file,show_source
+
         ";
     }
 
