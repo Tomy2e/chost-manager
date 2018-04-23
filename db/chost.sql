@@ -146,4 +146,13 @@ alter table SOUSCRIPTION add constraint FK_SOUSCRIPTION2 foreign key (ID_OFFRE)
 
 alter table TICKETS add constraint FK_OUVRE_TICKET foreign key (ID_CLIENT)
       references CLIENTS (ID_CLIENT) on delete restrict on update restrict;
+	  
+/*
+	DATA FOR THE BASE  
+	*/  
+INSERT INTO `clients` (`ID_CLIENT`, `PRENOM`, `NOM`, `EMAIL`, `PASSWORD`, `ADRESSE`, `CODEPOSTAL`, `VILLE`, `TELEPHONE`, `CREDIT`, `COMPTE_ACTIF`, `TOKEN_ALEATOIRE`, `TYPE_COMPTE`) VALUES
+(2, 'user', 'user', 'user@chost.com', '$2y$10$bRtU1lNUJiSLQTuzAepcu.glu7EzyjnMbJGG2VWmlgB2hrHGcTcty', '1 Rue de la Châtaigneraie', '35510', 'Cesson-Sévigné', '0604136342', '0.00', 1, '1524499317', '0'),
+(1, 'admin', 'admin', 'admin@chost.com', '$2y$10$bRtU1lNUJiSLQTuzAepcu.glu7EzyjnMbJGG2VWmlgB2hrHGcTcty', '1 Rue de la Châtaigneraie', '35510', 'Cesson-Sévigné', '0604136342', '44100.00', 1, '1524499317', '1');
+
+
 
